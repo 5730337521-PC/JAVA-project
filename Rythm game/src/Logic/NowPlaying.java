@@ -19,8 +19,8 @@ public class NowPlaying {
 		this.music = music;
 	}
 	
-	public float getsongposition( MusicControl music){
-		return music.getPosition;
-		
-	}
+//	public float getsongposition( MusicControl music){
+//		return music.getPosition;
+//		
+//	}
 }
