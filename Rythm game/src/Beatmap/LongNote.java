@@ -1,8 +1,8 @@
 package Beatmap;
 
 public class LongNote implements Note {
-	protected int duration;// hold time
-	protected int timeing; // when to hit
+	protected float duration;// hold time
+	protected float timeing; // when to hit
 
 	public LongNote(int duration, int timeing) {
 		super();
@@ -11,9 +11,9 @@ public class LongNote implements Note {
 	}
 
 	@Override
-	public int getTime() {
+	public float getTime() {
 		// TODO Auto-generated method stub
-		return 0;
+		return timeing;
 	}
 
 }

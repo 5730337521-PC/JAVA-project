@@ -1,5 +1,5 @@
-package Logic;
+package Audio;
 
 public class MusicControl {
-
+	
 }

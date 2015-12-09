@@ -1,7 +1,7 @@
 package Beatmap;
 
 public class ShortNote implements Note{
-	protected int timeing;
+	protected float timeing;
 
 	public ShortNote(int timeing) {
 		super();
@@ -9,7 +9,7 @@ public class ShortNote implements Note{
 	}
 
 	@Override
-	public int getTime() {
+	public float getTime() {
 		// TODO Auto-generated method stub
 		return timeing;
 	}
