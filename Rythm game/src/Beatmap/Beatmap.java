@@ -1,45 +1,23 @@
 package Beatmap;
 
+import java.util.ArrayList;
+
 public class Beatmap {
-	private int notecount;
-	private int accuracy; //offset to perfect
-	
-	private Note thisNote;
-	private Note []NoteList;
+	private ArrayList<TargetObject> map;
+	private int targetIndex;
 
-	public Beatmap(int accuracy) { //load txt life
+	public Beatmap(ArrayList<TargetObject> map) {
 		super();
-		this.notecount = 0;
-		this.accuracy = accuracy;
-		// load all note
-	}	
+//		for(in.hasNext())
+//		load file using MapLoader?
+//		Initialize
+	}
 	
-	public Note NextNote(){
-		notecount++;
-		return NoteList[notecount];
+	public TargetObject getNexttarget(){
+		
+	}
+	public TargetObject gettarget(){
+		
 	}
 
-	public int getAccuracy() {
-		return accuracy;
-	}
-
-	public void setAccuracy(int accuracy) {
-		this.accuracy = accuracy;
-	}
-
-	public Note getThisNote() {
-		return thisNote;
-	}
-
-	public void setThisNote(Note thisNote) {
-		this.thisNote = thisNote;
-	}
-
-	public Note[] getNoteList() {
-		return NoteList;
-	}
-
-	public void setNoteList(Note[] noteList) {
-		NoteList = noteList;
-	}
 }

@@ -18,9 +18,15 @@ public class NowPlaying {
 		this.timing = timing;
 		this.music = music;
 	}
-	
-	public float getsongposition( MusicControl music){
-		return music.getPosition;
-		
+
+	public float getSongposition() {
+		return songposition;
 	}
+
+	public float getTime() { //not fin
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	
+	
 }
