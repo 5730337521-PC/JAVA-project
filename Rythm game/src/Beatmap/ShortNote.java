@@ -2,7 +2,7 @@ package Beatmap;
 
 import java.awt.Graphics2D;
 
-import Logic.NowPlaying;
+import Audio.NowPlaying;
 import Logic.PlayerStatus;
 
 public class ShortNote extends TargetObject{
@@ -24,6 +24,7 @@ public class ShortNote extends TargetObject{
 		float delta = Math.abs(now.getTime() - timing);
 		if(delta < hitDuration/2){ //hit
 			this.isHit = true;
+			this.isDestroy = true;
 			if(delta/(hitDuration/2)<=0.1){ //maxhit
 				player.addScore(100);
 				player.addMaxhit();			

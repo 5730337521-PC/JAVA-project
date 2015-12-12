@@ -2,7 +2,7 @@ package Beatmap;
 
 import java.awt.Graphics2D;
 
-import Logic.NowPlaying;
+import Audio.NowPlaying;
 import Logic.PlayerStatus;
 
 public class LongNote extends TargetObject {
@@ -22,17 +22,10 @@ public class LongNote extends TargetObject {
 		// TODO Auto-generated method stub
 		float delta = Math.abs(now.getTime() - timing);
 		if(delta < hitDuration/2){ //hit
-			if(delta/(hitDuration/2)<=0.1){ //maxhit
+			for (int i = 0; i < holdDuration; i++) {
 				player.addScore(100);
-				player.addMaxhit();
-			}else if(delta/(hitDuration/2)<=0.5){ //hit50
-				player.addScore(50);
-				player.addHit50();
-			}else{ //hit10
-				player.addScore(10);
-				player.addHit10();
+				player.addMaxhit();	
 			}
-			
 		}
 		else { //miss
 			player.addMiss();
@@ -43,6 +36,8 @@ public class LongNote extends TargetObject {
 		// TODO Auto-generated method stub
 		
 	}
-	
+	public float getHoldDuration() {
+		return holdDuration;
+	}	
 	
 }

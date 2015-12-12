@@ -8,16 +8,18 @@ public class Beatmap {
 
 	public Beatmap(ArrayList<TargetObject> map) {
 		super();
-//		for(in.hasNext())
-//		load file using MapLoader?
-//		Initialize
+		for (int i = 0; i < 5; i++) {
+			ShortNote a = new ShortNote(300, 1, 50, i * 100);
+			map.add(a);
+		}
 	}
-	
-	public TargetObject getNexttarget(){
-		
+
+	public TargetObject getNexttarget() {
+		return map.get(targetIndex++);
 	}
-	public TargetObject gettarget(){
-		
+
+	public TargetObject gettarget() {
+		return map.get(targetIndex);
 	}
 
 }

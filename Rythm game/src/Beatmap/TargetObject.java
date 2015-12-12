@@ -1,7 +1,7 @@
 package Beatmap;
 
+import Audio.NowPlaying;
 import Graphic.IRenderableObject;
-import Logic.NowPlaying;
 import Logic.PlayerStatus;
 
 public abstract class TargetObject implements IRenderableObject {
