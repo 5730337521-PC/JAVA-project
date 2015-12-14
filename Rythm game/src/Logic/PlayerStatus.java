@@ -1,6 +1,8 @@
 package Logic;
 
-public class PlayerStatus {
+import java.awt.Graphics2D;
+
+public class PlayerStatus implements Graphic.IRenderableObject {
 	private static final int MAX_score = 200;
 	private static final int MAX_HP = 100;
 	private static final int HP_reduction = 20;
@@ -118,4 +120,34 @@ public class PlayerStatus {
 	public void setPause(boolean pause) {
 		this.pause = pause;
 	}
+
+	public boolean isDisplayingArea(int mouseX, int mouseY) {
+		// TODO Auto-generated method stub
+		return mouseX<=800 && mouseY <= 600 && mouseX >= 0 && mouseY >=0;
+	}
+
+	public void shoot() {
+		// TODO Auto-generated method stub
+		Audio.HitSound.playSound("shoot");
+	}
+
+	@Override
+	public boolean isVisible() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public int getZ() {
+		// TODO Auto-generated method stub
+		return Integer.MAX_VALUE;
+	}
+
+	@Override
+	public void render(Graphics2D g2d) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
 }

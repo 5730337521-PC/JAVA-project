@@ -83,7 +83,7 @@ public class DrawingUtility {
 	 * 
 	 * }
 	 */
-	public static GameAnimation createShootingAnimationAt(int x, int y) {
+	public static GameAnimation createExplosionAt(int x, int y) {
 		GameAnimation explode = new GameAnimation(DrawingUtility.explosion, 5, 1);
 		explode.centerAnimationAt(x, y);
 		explode.play();
@@ -91,7 +91,7 @@ public class DrawingUtility {
 	}
 	
 	public static GameAnimation createFireworkAt(int x, int y) {
-		GameAnimation firework = new GameAnimation(DrawingUtility.firework, 5, 1);
+		GameAnimation firework = new GameAnimation(DrawingUtility.firework, 4, 1);
 		firework.centerAnimationAt(x, y);
 		firework.play();
 		return firework;

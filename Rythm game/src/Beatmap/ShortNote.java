@@ -3,6 +3,7 @@ package Beatmap;
 import java.awt.Graphics2D;
 
 import Audio.NowPlaying;
+import Graphic.DrawingUtility;
 import Logic.PlayerStatus;
 
 public class ShortNote extends TargetObject{
@@ -21,10 +22,11 @@ public class ShortNote extends TargetObject{
 	@Override
 	public void hit(PlayerStatus player, NowPlaying now) {
 		// TODO Auto-generated method stub
+		if(isDestroy()) return;
 		float delta = Math.abs(now.getTime() - timing);
 		if(delta < hitDuration/2){ //hit
 			this.isHit = true;
-			this.isDestroy = true;
+			this.setDestroy(true);
 			if(delta/(hitDuration/2)<=0.1){ //maxhit
 				player.addScore(100);
 				player.addMaxhit();			
@@ -38,6 +40,7 @@ public class ShortNote extends TargetObject{
 		}
 		else { //miss
 			player.addMiss();
+			DrawingUtility.createExplosionAt(this.x, this.y);
 		}
 	}
 

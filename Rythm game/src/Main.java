@@ -3,30 +3,34 @@ import javax.swing.JFrame;
 import javax.swing.plaf.SliderUI;
 
 import Audio.HitSound;
-import Graphic.GameScreen;
+import ui.GameManager;
+import ui.GameScreen;
 import ui.GameTitle;
+import ui.GameWindow;
 
 public class Main {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		final HitSound h = new HitSound();
-		GameScreen g = new GameScreen(null);
-//		final HitSound h1 = new HitSound();
-//		long starttime = System.currentTimeMillis();
-//		long x;
+//		final HitSound h = new HitSound();
+//		GameWindow g = new GameWindow(new GameTitle());
+////		final HitSound h1 = new HitSound();
+////		long starttime = System.currentTimeMillis();
+////		long x;
 //
-
-		JFrame j = new JFrame("Rhythm Ta");
-		j.setResizable(false);
-		j.add(g);
-		j.setVisible(true);
-		j.pack();
-		new Runnable() {
+//		JFrame j = new JFrame("BEAT WAR!");
+//		j.setResizable(false);
+//		j.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		j.add(g);
+//		j.setVisible(true);
+//		j.pack();
+		
+		GameManager.rungame();
+		/*new Runnable() {
 			public void run() {
-				h.coinSound.play();
+				HitSound.playSound("shoot");
 			}
-		}.run();
+		}.run();*/
 		
 //		while (!g.isclick) {
 //			x = System.currentTimeMillis()-starttime;

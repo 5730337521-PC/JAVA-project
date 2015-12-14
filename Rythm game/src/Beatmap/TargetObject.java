@@ -8,7 +8,9 @@ public abstract class TargetObject implements IRenderableObject {
 	protected int x, y, z;
 	protected final static int MAX_Radius = 200, MAX_Y = 50, MIN_Y = 640; // ค่อยคิดละกัน
 	protected static int radius;
-	protected boolean isDestroy, isPointerOver,isHit;
+	private boolean isDestroy;
+	protected boolean isPointerOver;
+	protected boolean isHit;
 	protected static int speedradius, speedY;
 	protected float hitDuration, timing;
 	
@@ -17,7 +19,7 @@ public abstract class TargetObject implements IRenderableObject {
 		this.x = x;
 		this.y = MIN_Y;
 		this.z = z;
-		this.isDestroy = false;
+		this.setDestroy(false);
 		this.isPointerOver = false;
 		this.hitDuration = hitDuration;
 		this.timing = timing;
@@ -46,6 +48,14 @@ public abstract class TargetObject implements IRenderableObject {
 	
 	public abstract void hit(PlayerStatus player, NowPlaying now);
 	public abstract void move();
+
+	public boolean isDestroy() {
+		return isDestroy;
+	}
+
+	public void setDestroy(boolean isDestroy) {
+		this.isDestroy = isDestroy;
+	}
 	
 	
 
