@@ -1,11 +1,15 @@
 package Logic;
 
-public class PlayerStatus {
+import java.awt.Graphics2D;
+
+import Audio.HitSound;
+import Graphic.*;
+
+public class PlayerStatus implements IRenderableObject {
 	private static final int MAX_score = 200;
 	private static final int MAX_HP = 100;
 	private static final int HP_reduction = 20;
 
-	private int songpercent;
 	private int score;
 	private float accuracy;
 	private int hp;
@@ -20,8 +24,7 @@ public class PlayerStatus {
 	private int hit10; // MAX_score/10
 	private int misscount; // 0
 
-	public PlayerStatus() {
-		this.songpercent = 0;
+	public PlayerStatus() { //initialize when startplaying
 		this.score = 0;
 		this.accuracy = 100;
 		this.hp = MAX_HP;
@@ -33,30 +36,12 @@ public class PlayerStatus {
 		this.misscount = 0;
 	}
 
-	public float getaccuracy() {
-		float acc = maxhit * 100 + hit50 * 50 + hit10 * 10; // weight
-		acc = acc / (maxhit + hit10 + hit50 + misscount); // /n
-		return acc;
-	}
-
-	// public int getsongpercent() {
-	// return songtime/songduration;
-	// }
-
 	public void update() { // update after each BPM
-		this.accuracy = getaccuracy();
-		if (combocount > maxcombo) {
+		this.accuracy = (maxhit * 100 + hit50 * 50 + hit10 * 10) / (maxhit + hit10 + hit50 + misscount);  //accupdate
+		if (combocount > maxcombo) {  //maxcomboupdate
 			maxcombo = combocount;
 		}
 
-	}
-
-	public int getCombocount() {
-		return combocount;
-	}
-
-	public int getMaxcombo() {
-		return maxcombo;
 	}
 
 	public void addScore(int hittype) { // 100 50 10
@@ -64,28 +49,51 @@ public class PlayerStatus {
 	}
 
 	public void addMaxhit() {
+		addScore(100);
 		combocount++;
 		maxhit++;
 		hitcount++;
 	}
 
 	public void addHit50() {
+		addScore(50);
 		combocount++;
 		hit50++;
 		hitcount++;
 	}
 
 	public void addHit10() {
+		addScore(10);
 		combocount++;
 		hit10++;
 		hitcount++;
 	}
 
-	public void addMiss() {
+	public void addMiss() { // when miss
 		this.combocount = 0;
 		misscount++;
 		hp -= HP_reduction;
 		hitcount++;
+	}
+
+	public int getMaxcombo() {
+		return maxcombo;
+	}
+
+	public int getScore() {
+		return score;
+	}
+
+	public int getHp() {
+		return hp;
+	}
+
+	public int getHitcount() {
+		return hitcount;
+	}
+
+	public int getCombocount() {
+		return combocount;
 	}
 
 	public int getMaxhit() {
@@ -103,6 +111,11 @@ public class PlayerStatus {
 	public int getMiss() {
 		return misscount;
 	}
+
+	public float getAccuracy() {
+		return accuracy;
+	}
+
 	public boolean isPause() {
 		return pause;
 	}
@@ -110,4 +123,35 @@ public class PlayerStatus {
 	public void setPause(boolean pause) {
 		this.pause = pause;
 	}
+
+	public boolean isDisplayingArea(int mouseX, int mouseY) {
+		// TODO Auto-generated method stub
+		return mouseX<=800 && mouseY <= 600 && mouseX >= 0 && mouseY >=0;
+	}
+
+	public void shoot() {
+		// TODO Auto-generated method stub
+		HitSound h = new HitSound();
+		h.play(1);
+	}
+
+	@Override
+	public boolean isVisible() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public int getZ() {
+		// TODO Auto-generated method stub
+		return Integer.MAX_VALUE;
+	}
+
+	@Override
+	public void render(Graphics2D g2d) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
 }
