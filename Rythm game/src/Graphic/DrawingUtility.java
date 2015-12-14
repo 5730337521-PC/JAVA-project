@@ -4,12 +4,8 @@ package Graphic;
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.FontMetrics;
 import java.awt.Graphics2D;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.net.URL;
-
 import javax.imageio.ImageIO;
 
 public class DrawingUtility {
@@ -27,9 +23,11 @@ public class DrawingUtility {
 		}
 	}
 
-	protected static final BufferedImage bg = getImage("res/img/bg/bg.jpg");
+	protected static final BufferedImage bg = getImage("res/img/bg/blue.jpg");
+	protected static final BufferedImage bgred = getImage("res/img/bg/red.jpg");
 	protected static final BufferedImage explosion = getImage("res/img/sprite/Explosion-Sprite-Sheet.png");
 	protected static final BufferedImage firework = getImage("res/img/sprite/firework.png");
+	
 
 	protected static final AlphaComposite transcluentWhite = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.7f);
 	protected static final AlphaComposite opaque = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1);
@@ -37,7 +35,7 @@ public class DrawingUtility {
 	public static BufferedImage getExplosion() {
 		return explosion;
 	}
-	
+
 	public static BufferedImage getFirework() {
 		return firework;
 	}
@@ -83,17 +81,45 @@ public class DrawingUtility {
 	 * 
 	 * }
 	 */
+	
 	public static GameAnimation createExplosionAt(int x, int y) {
 		GameAnimation explode = new GameAnimation(DrawingUtility.explosion, 5, 1);
 		explode.centerAnimationAt(x, y);
 		explode.play();
 		return explode;
 	}
-	
+
 	public static GameAnimation createFireworkAt(int x, int y) {
 		GameAnimation firework = new GameAnimation(DrawingUtility.firework, 4, 1);
 		firework.centerAnimationAt(x, y);
 		firework.play();
 		return firework;
+	}
+
+	public static void drawShortNote(Graphics2D g2, int x, int y, int radius, boolean isPointerOver) {
+		g2.setColor(Color.BLACK);
+		g2.fillOval(x - radius, y - radius, radius * 2, radius * 2);
+		g2.setColor(Color.RED);
+		g2.fillOval(x - radius + 2, y - radius + 2, (radius - 2) * 2, (radius - 2) * 2);
+
+		if (isPointerOver) {
+			g2.setComposite(transcluentWhite);
+			g2.setColor(Color.WHITE);
+			g2.fillOval(x - radius, y - radius, radius * 2, radius * 2);
+			g2.setComposite(opaque);
+		}
+	}
+	public static void drawLongNote(Graphics2D g2, int x, int y, int radius, boolean isPointerOver) {
+		g2.setColor(Color.BLACK);
+		g2.fillOval(x - radius, y - radius, radius * 2, radius * 2);
+		g2.setColor(Color.GREEN);
+		g2.fillOval(x - radius + 2, y - radius + 2, (radius - 2) * 2, (radius - 2) * 2);
+
+		if (isPointerOver) {
+			g2.setComposite(transcluentWhite);
+			g2.setColor(Color.WHITE);
+			g2.fillOval(x - radius, y - radius, radius * 2, radius * 2);
+			g2.setComposite(opaque);
+		}
 	}
 }

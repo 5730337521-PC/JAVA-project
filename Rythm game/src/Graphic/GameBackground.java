@@ -5,28 +5,27 @@ import java.awt.image.BufferedImage;
 
 import Logic.PlayerStatus;
 
-public class GameBackground implements IRenderableObject{
+public class GameBackground implements IRenderableObject {
 
-	private BufferedImage bgImage,bgRed;
+	private BufferedImage bgImage;
 	private int currentX = 0;
 	private int imageWidth;
-	
-	public GameBackground(PlayerStatus player){
+
+	public GameBackground(PlayerStatus player) {
 		bgImage = DrawingUtility.bg;
-		if(bgImage != null){
+		if (bgImage != null) {
 			imageWidth = bgImage.getWidth();
-		}else{
+		} else {
 			imageWidth = 0;
 		}
 	}
-	
-	public void updateBackground(){
-		currentX++;
-		if(currentX >= imageWidth){
-			currentX = 0;
+
+	public void updateBackground(PlayerStatus player) {
+		if (player.getHp() < 50) {
+			bgImage = DrawingUtility.bgred;
 		}
 	}
-	
+
 	@Override
 	public boolean isVisible() {
 		// TODO Auto-generated method stub
@@ -42,7 +41,8 @@ public class GameBackground implements IRenderableObject{
 	@Override
 	public void render(Graphics2D g2) {
 		// TODO Auto-generated method stub
-		if(bgImage == null) return;
+		if (bgImage == null)
+			return;
 		g2.drawImage(DrawingUtility.bg, 0, 0, null);
-		}
 	}
+}

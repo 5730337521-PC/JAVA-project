@@ -1,19 +1,10 @@
 package ui;
 
-import java.awt.Graphics;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-
 import Graphic.IRenderableHolder;
 import Graphic.IRenderableObject;
-import Logic.MainLogic;
 import Utility.InputUtility;
 import Logic.IGameLogic;
 
