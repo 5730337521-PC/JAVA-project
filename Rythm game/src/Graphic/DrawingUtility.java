@@ -28,9 +28,8 @@ public class DrawingUtility {
 	}
 
 	protected static final BufferedImage bg = getImage("res/img/bg/bg.jpg");
-	protected static final BufferedImage gun = getImage("res/img/gun.png");
-	protected static final BufferedImage gun_inf = getImage("res/img/gun_inf.png");
 	protected static final BufferedImage explosion = getImage("res/img/sprite/Explosion-Sprite-Sheet.png");
+	protected static final BufferedImage firework = getImage("res/img/sprite/firework.png");
 
 	protected static final AlphaComposite transcluentWhite = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.7f);
 	protected static final AlphaComposite opaque = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1);
@@ -38,10 +37,13 @@ public class DrawingUtility {
 	public static BufferedImage getExplosion() {
 		return explosion;
 	}
+	
+	public static BufferedImage getFirework() {
+		return firework;
+	}
 
 	public static void drawShootableObject(Graphics2D g2, int x, int y, int radius, String name,
 			boolean isPointerOver) {
-		/* fill code */
 		g2.setColor(Color.BLACK);
 		g2.fillOval(x - radius - 2, y - radius - 2, radius * 2 + 4, radius * 2 + 4);
 		if (name.equalsIgnoreCase("simple"))
@@ -82,9 +84,16 @@ public class DrawingUtility {
 	 * }
 	 */
 	public static GameAnimation createShootingAnimationAt(int x, int y) {
-		GameAnimation anim = new GameAnimation(DrawingUtility.shootAnim, 7, 1);
-		anim.centerAnimationAt(x, y);
-		anim.play();
-		return anim;
+		GameAnimation explode = new GameAnimation(DrawingUtility.explosion, 5, 1);
+		explode.centerAnimationAt(x, y);
+		explode.play();
+		return explode;
+	}
+	
+	public static GameAnimation createFireworkAt(int x, int y) {
+		GameAnimation firework = new GameAnimation(DrawingUtility.firework, 5, 1);
+		firework.centerAnimationAt(x, y);
+		firework.play();
+		return firework;
 	}
 }
