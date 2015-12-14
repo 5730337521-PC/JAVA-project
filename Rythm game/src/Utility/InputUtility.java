@@ -1,6 +1,5 @@
 package Utility;
 
-
 public class InputUtility {
 	private static int mouseX, mouseY;
 	private static boolean mouseLeftDown, mouseRightDown, mouseOnScreen;
@@ -90,9 +89,10 @@ public class InputUtility {
 	}
 
 	public static void postUpdate() {
-		//check on screen
-//		mouseOnScreen = mouseX >= 0 && mouseX <= ConfigurableOption.screenWidth && mouseY >= 0
-//				&& mouseY <= ConfigurableOption.screenHeight;
+		// check on screen
+		// mouseOnScreen = mouseX >= 0 && mouseX <=
+		// ConfigurableOption.screenWidth && mouseY >= 0
+		// && mouseY <= ConfigurableOption.screenHeight;
 		mouseLeftTriggered = false;
 		mouseRightTriggered = false;
 

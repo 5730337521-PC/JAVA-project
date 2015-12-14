@@ -3,18 +3,23 @@ package Audio;
 public class NowPlaying {
 	public final int songduration = 210011;
 	public int startingtime;
-	public int songposition;
+	public static int songposition;
 	public Song music; // music
 
-	public NowPlaying(Song music) {
-		music.play();
-		startingtime = (int) System.currentTimeMillis();
+	public NowPlaying() {
+		music = new Song();
 		songposition = 0;
+		startingtime = 0;
 	}
 
-	public void update() {
-		songposition = (int) System.currentTimeMillis() - startingtime;
+	public void play() {
+		music.play();
+		startingtime = (int) System.currentTimeMillis();
+	}
 
+	public void update() { //thread
+		songposition = (int) System.currentTimeMillis() - startingtime;
+		System.out.println(songposition);
 	}
 
 	public int getTime() {

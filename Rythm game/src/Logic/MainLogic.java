@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
+import Audio.NowPlaying;
+import Beatmap.Beatmap;
+import Beatmap.LongNote;
 import Beatmap.ShortNote;
 import Beatmap.TargetObject;
 import Graphic.DrawingUtility;
@@ -20,23 +22,23 @@ public class MainLogic implements IRenderableHolder, IGameLogic {
 	// All renderable objects
 	private GameBackground background;
 	private PlayerStatus player;
+	private Beatmap map;
+	private NowPlaying now;
 	private List<TargetObject> onScreenObject = new ArrayList<TargetObject>();
 	private List<GameAnimation> onScreenAnimation = new ArrayList<GameAnimation>();
 
-	/*
-	 * Reserved z MIN_VALUE : background MAX_VALUE-1 : animation effect
-	 * MAX_VALUE : player's status
-	 */
-	private int zCounter = Integer.MIN_VALUE + 1;
-	private int nextObjectCreationDelay;
 	private boolean readyToRender = false; // For dealing with synchronization
-											// issue
 
 	// Called before enter the game loop
 	public synchronized void onStart() {
 		// background = new GameBackground();
+		background = new GameBackground();
 		player = new PlayerStatus();
+		map = new Beatmap("res/map/test.txt", 2000); // 2 sec
 		readyToRender = true;
+		now = new NowPlaying();
+		now.play();
+		System.out.println("onstart");
 	}
 
 	// Called after exit the game loop
@@ -53,38 +55,52 @@ public class MainLogic implements IRenderableHolder, IGameLogic {
 		 * if (player.isPause()) { return; }
 		 */
 
-		// Update moving background
-		// background.updateBackground();
+		// Update background according to HP
 
-		// // Time up
-		// if (player.getRemainingTime() == 0) {
-		// HighScoreUtility.recordHighScore(player.getScore());
-		// GameManager.goToTitle();
-		// return;
-		// }
+		// update time
+		now.update();
 
-		// Create random target
-		createTarget();
+		background.updateBackground(player.getHp());
 
-		// Shoot and grab
+		// Time up
+		if (now.getTime() >= now.songduration) {
+			// GameManager.goScoreScreen();
+			// HighScoreUtility.recordHighScore(player.getScore());
+
+			return;
+		}
+//		System.out.println(map.getnote().getSpawntime());
+//		System.out.println(now.getTime() - map.getnote().getSpawntime());
+		// if it time to spawn
+		
+		if (now.getTime() - map.getnote().getSpawntime() >= 0) {
+			onScreenObject.add(map.getnote()); // add note to screen
+			map.NextTargetIndex(); // point to next note then repeat
+			System.out.println("spawn");
+		}
+
+		// Shoot
 		TargetObject target = null;
-		TargetObject grabbedObject = null;
-		if (!player.isDisplayingArea(InputUtility.getMouseX(), InputUtility.getMouseY())) {
-
-			boolean shoot = false;
+		if (!player.isDisplayingArea(InputUtility.getMouseX(), InputUtility.getMouseY())) { // mouse
+																							// on
+																							// screen
 			if ((InputUtility.isMouseLeftClicked() || InputUtility.getKeyTriggered(KeyEvent.VK_SPACE))) {
-
+				// shot
 				player.shoot();
+				target = getTopMostTargetAt(InputUtility.getMouseX(), InputUtility.getMouseY());
+				if (target != null) { // hit somthing
+					if (target instanceof ShortNote) {
+						target.hit(player, now);
+						onScreenAnimation.add(
+								DrawingUtility.createFireworkAt(InputUtility.getMouseX(), InputUtility.getMouseY()));
+					}
+					if (target instanceof LongNote) {
+						// target.hit(player, now);
 
-				onScreenAnimation
-						.add(DrawingUtility.createFireworkAt(InputUtility.getMouseX(), InputUtility.getMouseY()));
-				shoot = true;
-			}
-
-			target = getTopMostTargetAt(InputUtility.getMouseX(), InputUtility.getMouseY());
-			if (target != null) {
-				if (target instanceof ShortNote) {
-					target.hit(player, now);
+					}
+				} else { // hit notting
+					player.addMiss();
+					// animation miss
 				}
 			}
 		}
@@ -99,6 +115,8 @@ public class MainLogic implements IRenderableHolder, IGameLogic {
 			obj.updateAnimation();
 		}
 
+		player.update();
+
 		// Remove unused image
 		for (int i = onScreenObject.size() - 1; i >= 0; i--) {
 			if (onScreenObject.get(i).isDestroy())
@@ -108,30 +126,7 @@ public class MainLogic implements IRenderableHolder, IGameLogic {
 			if (!onScreenAnimation.get(i).isVisible())
 				onScreenAnimation.remove(i);
 		}
-	}
 
-	private void createTarget() {
-		if (nextObjectCreationDelay > 0) {
-			nextObjectCreationDelay--;
-		} else {
-			// Random next creation delay
-			nextObjectCreationDelay = RandomUtility.random(ConfigurableOption.objectCreationMinDelay,
-					ConfigurableOption.objectCreationMaxDelay);
-
-			// Random moving duration
-			int movingDuration = RandomUtility.random(ConfigurableOption.objectMinDuration,
-					ConfigurableOption.objectMaxDuration);
-
-			TargetObject e = null;
-			e = new ShortNote(movingDuration, movingDuration, movingDuration, movingDuration);
-			onScreenObject.add(e);
-			// Increase z counter (so the next object will be created on top of
-			// the previous one)
-			zCounter++;
-			if (zCounter == Integer.MAX_VALUE - 1) {
-				zCounter = Integer.MIN_VALUE + 1;
-			}
-		}
 	}
 
 	private TargetObject getTopMostTargetAt(int x, int y) {

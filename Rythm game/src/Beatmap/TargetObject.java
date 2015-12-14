@@ -12,7 +12,7 @@ public abstract class TargetObject implements IRenderableObject {
 	protected final static int TICKRATE = 60; // 1/60 per frame
 	protected static int radius;
 	protected boolean isDestroy, isPointerOver, isHit, onScreen;
-	protected float hitDuration, timing, spawntime;
+	protected float hitDuration, timing, spawntime; //ms
 
 	public TargetObject(int x, int z, float hitDuration, float timing) {
 		this.speedY = (int) (GRAVITY*hitDuration/2);
@@ -49,11 +49,19 @@ public abstract class TargetObject implements IRenderableObject {
 	@Override
 	public int getZ() {
 		// TODO Auto-generated method stub
-		return 0;
+		return z;
 	}
 
 	public abstract void hit(PlayerStatus player, NowPlaying now);
 
 	public abstract void move();
+
+	public float getSpawntime() {
+		return spawntime;
+	}
+
+	public boolean isDestroy() {
+		return isDestroy;
+	}
 
 }

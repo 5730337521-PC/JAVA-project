@@ -4,12 +4,8 @@ package Graphic;
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.FontMetrics;
 import java.awt.Graphics2D;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.net.URL;
-
 import javax.imageio.ImageIO;
 
 public class DrawingUtility {

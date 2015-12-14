@@ -1,24 +1,23 @@
 package ui;
 
-import java.awt.Graphics;
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import Logic.MainLogic;
+import Graphic.IRenderableHolder;
+import Graphic.IRenderableObject;
+import Utility.InputUtility;
+import Logic.IGameLogic;
 
+public class GameManager {
+	private static final int REFRESH_DELAY = 16;
 
-public class GameManager{
 	public static GameWindow frame;
 	public static GameScreen gc;
 	public static GameTitle gt;
-	public static MainLogic gl;
 	private static boolean Ingame = false;
-	
+	private static JPanel nextScene = null;
 
 	public static boolean isIngame() {
 		return Ingame;
@@ -28,29 +27,50 @@ public class GameManager{
 		Ingame = ingame;
 	}
 
-	public static void rungame() {
-	
+	public static void rungame(IGameLogic gameLogic) {
 		gt = new GameTitle();
-		gc = new GameScreen(null);
-		gl = new MainLogic();
+		gc = new GameScreen((IRenderableHolder) gameLogic);
 		frame = new GameWindow(gt);
 
 		while (true) {
 			try {
-				Thread.sleep(35);
+				Thread.sleep(REFRESH_DELAY);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+			System.out.println("running");	
+			System.out.println(frame.getCurrentScene());
+
 			frame.getCurrentScene().repaint();
-
 			if (frame.getCurrentScene() instanceof GameScreen) {
-				if (!Ingame) {
-//					AudioUtility.playSound("GameSound");
-					Ingame = true;
-				}
-				gl.logicUpdate();
+				System.out.println("updating logic");
+				gameLogic.logicUpdate();
+				InputUtility.postUpdate();
 			}
+			if (nextScene != null) {
+				if (frame.getCurrentScene() instanceof GameScreen)
+					gameLogic.onExit();
+					Ingame = false;
+					frame.switchScene(nextScene);
+			}
+			if (nextScene instanceof GameScreen && !Ingame){
+				System.out.println("onstart");
+				gameLogic.onStart();
+				Ingame = true;
+				frame.switchScene(nextScene);
+			}
+			nextScene = null;
 		}
+		
+		
 	}
-
+	public static void goToTitle(){
+		nextScene = gt;
+	}
+	
+	public static void newGame(){
+		nextScene = gc;
+	}
+	
+	
 }

@@ -10,7 +10,7 @@ public class Song {
 
 	static {
 		TinySound.init();
-		song = TinySound.loadMusic("res/sound/song.wav");
+		song = TinySound.loadMusic("res/sound/music.wav");
 
 	}
 

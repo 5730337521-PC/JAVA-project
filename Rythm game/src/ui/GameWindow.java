@@ -7,7 +7,7 @@ public class GameWindow extends JFrame {
 
 	private JPanel currentScene;
 
-	protected GameWindow(JPanel scene) {
+	public GameWindow(JPanel scene) {
 		super("BEAT WAR!");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
@@ -27,7 +27,7 @@ public class GameWindow extends JFrame {
 		currentScene.requestFocus();
 	}
 
-	protected JPanel getCurrentScene() {
+	public JPanel getCurrentScene() {
 		return currentScene;
 	}
 }

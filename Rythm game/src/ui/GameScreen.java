@@ -98,8 +98,4 @@ public class GameScreen extends JPanel {
 			renderable.render(g2);
 		}
 	}
-	
-	public void paint(Graphics g) {
-		g.drawImage(bg, 0, 0, null);
-	}
 }
