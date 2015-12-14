@@ -8,7 +8,7 @@ public class GameWindow extends JFrame {
 	private JPanel currentScene;
 
 	protected GameWindow(JPanel scene) {
-		super("Shoot the bullet");
+		super("Rhythm Ta");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
 		this.currentScene = scene;

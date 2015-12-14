@@ -1,24 +1,27 @@
 package Graphic;
 
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 import Utility.InputUtility;
 
 public class GameScreen extends JPanel {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 7247841512480622650L;
 	private IRenderableHolder renderableHolder;
+	protected static final BufferedImage bg = DrawingUtility.getImage("res/img/bg/bg-blue.jpg");
 
 	public GameScreen(IRenderableHolder holder) {
 		this.renderableHolder = holder;
+		this.setPreferredSize(new Dimension(800, 600));
+		this.setLayout(null);
+		repaint();
 		this.addListener();
 		setDoubleBuffered(true);
 	}
@@ -90,5 +93,9 @@ public class GameScreen extends JPanel {
 		for (IRenderableObject renderable : renderableHolder.getSortedRenderableObject()) {
 			renderable.render(g2);
 		}
+	}
+	
+	public void paint(Graphics g) {
+		g.drawImage(bg, 0, 0, null);
 	}
 }
