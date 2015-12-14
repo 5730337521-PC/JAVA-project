@@ -27,7 +27,7 @@ public class GameWindow extends JFrame {
 		currentScene.requestFocus();
 	}
 
-	protected JPanel getCurrentScene() {
+	public JPanel getCurrentScene() {
 		return currentScene;
 	}
 }

@@ -99,7 +99,7 @@ public class GameScreen extends JPanel {
 		}
 	}
 	
-	public void paint(Graphics g) {
-		g.drawImage(bg, 0, 0, null);
-	}
+//	public void paint(Graphics g) {
+//		g.drawImage(bg, 0, 0, null);
+//	}
 }

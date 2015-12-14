@@ -2,6 +2,8 @@ package ui;
 
 import java.awt.Graphics;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -9,14 +11,17 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import Graphic.IRenderableHolder;
+import Graphic.IRenderableObject;
 import Logic.MainLogic;
+import Utility.InputUtility;
+import Logic.IGameLogic;
 
 
 public class GameManager{
 	public static GameWindow frame;
 	public static GameScreen gc;
 	public static GameTitle gt;
-	public static MainLogic gl;
 	private static boolean Ingame = false;
 	
 
@@ -28,16 +33,25 @@ public class GameManager{
 		Ingame = ingame;
 	}
 
-	public static void rungame() {
+	public static void rungame(IGameLogic gameLogic) {
 	
 		gt = new GameTitle();
-		gc = new GameScreen(null);
-		gl = new MainLogic();
+		if(gameLogic instanceof IRenderableHolder){
+			gc = new GameScreen((IRenderableHolder)gameLogic);
+		}else{
+			gc = new GameScreen(new IRenderableHolder() {
+				private List<IRenderableObject> emptyList = new ArrayList<IRenderableObject>(0);
+				@Override
+				public List<IRenderableObject> getSortedRenderableObject() {
+					return emptyList;
+				}
+			});
+		}
 		frame = new GameWindow(gt);
 
 		while (true) {
 			try {
-				Thread.sleep(35);
+				Thread.sleep(16);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -48,7 +62,8 @@ public class GameManager{
 //					AudioUtility.playSound("GameSound");
 					Ingame = true;
 				}
-				gl.logicUpdate();
+				gameLogic.logicUpdate();
+				InputUtility.postUpdate();
 			}
 		}
 	}

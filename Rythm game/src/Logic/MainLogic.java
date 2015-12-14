@@ -54,7 +54,7 @@ public class MainLogic implements IRenderableHolder, IGameLogic {
 		 */
 
 		// Update moving background
-		// background.updateBackground();
+		background.updateBackground();
 
 		// // Time up
 		// if (player.getRemainingTime() == 0) {
@@ -73,9 +73,7 @@ public class MainLogic implements IRenderableHolder, IGameLogic {
 
 			boolean shoot = false;
 			if ((InputUtility.isMouseLeftClicked() || InputUtility.getKeyTriggered(KeyEvent.VK_SPACE))) {
-
 				player.shoot();
-
 				onScreenAnimation
 						.add(DrawingUtility.createFireworkAt(InputUtility.getMouseX(), InputUtility.getMouseY()));
 				shoot = true;

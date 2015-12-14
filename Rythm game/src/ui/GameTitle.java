@@ -60,6 +60,7 @@ public class GameTitle extends JPanel {;
 			public void mouseEntered(MouseEvent e) {
 				// TODO Auto-generated method stub
 				bg = DrawingUtility.getImage("res/img/bg/play.jpg");
+//				HitSound.playSound("shoot");
 			}
 			
 			@Override
