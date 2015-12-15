@@ -4,7 +4,7 @@ import kuusisto.tinysound.Sound;
 import kuusisto.tinysound.TinySound;
 
 public class HitSound {
-	private static Sound Miss;
+	private static Sound HitSound0;
 	private static Sound HitSound1;
 	private static Sound HitSound2;
 	private static Sound HitSound3;
@@ -13,10 +13,11 @@ public class HitSound {
 	static {
 		try {
 			TinySound.init();
-			HitSound1 = TinySound.loadSound("res/sound/hit1.wav");
-			HitSound2 = TinySound.loadSound("res/sound/hit2.wav");
-			HitSound3 = TinySound.loadSound("res/sound/hit3.wav");
-			HitSound4 = TinySound.loadSound("res/sound/hit4.wav");
+			HitSound0 = TinySound.loadSound("res/sound/miss.wav"); //miss
+			HitSound1 = TinySound.loadSound("res/sound/hit1.wav"); //hit
+			HitSound2 = TinySound.loadSound("res/sound/hit2.wav"); //hit2
+			HitSound3 = TinySound.loadSound("res/sound/hit3.wav"); //click
+			HitSound4 = TinySound.loadSound("res/sound/hit4.wav"); //fail
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -25,6 +26,9 @@ public class HitSound {
 
 	public void play(int type) {
 		switch (type) {
+		case 0:
+			HitSound0.play();
+			break;
 		case 1:
 			HitSound1.play();
 			break;

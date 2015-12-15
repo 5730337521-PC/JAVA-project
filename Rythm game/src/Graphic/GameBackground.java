@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 
 public class GameBackground implements IRenderableObject {
 	private static BufferedImage bgImage = null;
+	private int count = 0;
 
 	public GameBackground() {
 		bgImage = DrawingUtility.bg;
@@ -12,8 +13,16 @@ public class GameBackground implements IRenderableObject {
 
 	public void updateBackground(int HP) {
 		if (HP <= 50) {
-			bgImage = DrawingUtility.bgred;
+			bgImage = DrawingUtility.bgred[count];
+			if (count < 3)
+				count++;
+		} else {
+			bgImage = DrawingUtility.bg;
 		}
+	}
+
+	public static BufferedImage getBgImage() {
+		return bgImage;
 	}
 
 	@Override
@@ -33,6 +42,6 @@ public class GameBackground implements IRenderableObject {
 		// TODO Auto-generated method stub
 		if (bgImage == null)
 			return;
-		g2.drawImage(DrawingUtility.bg, 0, 0, null);
+		g2.drawImage(getBgImage(), 0, 0, null);
 	}
 }

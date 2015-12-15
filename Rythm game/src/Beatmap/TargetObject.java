@@ -7,19 +7,19 @@ import Logic.PlayerStatus;
 public abstract class TargetObject implements IRenderableObject {
 	protected final static int YSTART = 500, INTRAD = 20;
 	protected final static int TICKRATE = 60; // 1/60 per frame
-	protected final static int GRAVITY = 750; // unit/s2
 	protected final static int SPEEDRADIUS = 30; // unit/s
 
 	protected float x, y, radius;
 	protected int z;
 	protected float speedY; // unit/sec
+	protected int GRAVITY = 500; // unit/s2 200-850 only
 
-	protected boolean isDestroy, isPointerOver, isOnscreen,isClicked;
+	protected boolean isDestroy, isPointerOver, isOnscreen;
 
 	protected float hitDuration; // sec
 	protected float timing, spawntime; // ms
 
-	public TargetObject(int x, int z, float hitDuration, float timing) {
+	public TargetObject(int x, int z, float hitDuration, float timing, int GRAVITY) {
 		super();
 		this.x = x;
 		this.y = YSTART;
@@ -32,16 +32,15 @@ public abstract class TargetObject implements IRenderableObject {
 		this.timing = timing;
 		this.spawntime = this.timing - (this.hitDuration / 2);
 		this.isOnscreen = true;
-		this.isClicked =false;
+		this.GRAVITY = GRAVITY;
 	}
 
 	public boolean isOnscreen() {
 		if (x + radius <= 0 || y + radius <= 0 || x - radius >= 800 || y - radius >= 600) {
 			return false;
-		}
-		else {
+		} else {
 			return true;
-		}	
+		}
 	}
 
 	public boolean contains(int x, int y) {
@@ -90,14 +89,6 @@ public abstract class TargetObject implements IRenderableObject {
 
 	public float getRadius() {
 		return radius;
-	}
-
-	public boolean isClicked() {
-		return isClicked;
-	}
-
-	public void setClicked(boolean isClicked) {
-		this.isClicked = isClicked;
 	}
 
 }

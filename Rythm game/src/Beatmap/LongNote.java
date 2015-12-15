@@ -10,8 +10,8 @@ public class LongNote extends TargetObject {
 	private float timingOut;
 	private int wiggcount;
 
-	public LongNote(int x, int z, int hitDuration, float timing, float holdDuration) {
-		super(x, z, hitDuration, timing);
+	public LongNote(int x, int z, int hitDuration, float timing, float holdDuration, int GRAVITY) {
+		super(x, z, hitDuration, timing, GRAVITY);
 		// TODO Auto-generated constructor stub
 		this.timingOut = holdDuration;
 	}

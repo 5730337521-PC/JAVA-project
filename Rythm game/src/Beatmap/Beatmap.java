@@ -12,12 +12,13 @@ import Utility.Utility;
 public class Beatmap {
 	private ArrayList<TargetObject> map;
 	private int targetIndex;
-
+	private int level;
 	private int hitduration; // sec
 
-	public Beatmap(String fileURL, int hitduration) {
+	public Beatmap(String fileURL, int hitduration, int level) {
 		super();
 		map = new ArrayList<TargetObject>();
+		this.level = level;
 		this.targetIndex = 0;
 		this.hitduration = hitduration;
 		load(fileURL);
@@ -40,14 +41,33 @@ public class Beatmap {
 		try {
 			line = br.readLine();
 			while (line != null) {
+				int hardness = 0;
+				switch (level) {
+				case 0:
+					hardness = 850;
+					
+					break;
+				case 1:
+					hardness = Utility.random(400, 850);
+					
+					break;
+				case 2:
+					hardness = Utility.random(200, 850);
+					
+					break;
+
+				default:
+					hardness = 500;
+					break;
+				}
+				
 				int index1 = line.indexOf(',');
 				int index2 = line.indexOf(':');
-				System.out.println(line);
+				System.out.println("hardness = "+hardness);
 				type = Integer.parseInt(line.substring(0, index1));
 				if (type == 1) {
 					timing = Integer.parseInt(line.substring(index1 + 1));
-					timingout = timing;
-					ShortNote sn = new ShortNote(Utility.random(100, 700), z, hitduration, timing);
+					ShortNote sn = new ShortNote(Utility.random(100, 700), z, hitduration, timing, hardness);
 					map.add(sn);
 				} else {
 //					timing = Integer.parseInt(line.substring(index1 + 1, index2));
@@ -93,6 +113,10 @@ public class Beatmap {
 
 	public int getTargetIndex() {
 		return targetIndex;
+	}
+	
+	public int getSize(){
+		return map.size();
 	}
 
 }

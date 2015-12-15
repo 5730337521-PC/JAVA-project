@@ -3,6 +3,8 @@ package Graphic;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
+import Audio.NowPlaying;
+
 public class GameAnimation implements IRenderableObject {
 
 	private BufferedImage image = null;
@@ -141,7 +143,6 @@ public class GameAnimation implements IRenderableObject {
 	}
 
 	public void updateAnimation() {
-		play();
 		if (playing) {
 			if (frameDelayCount > 0) {
 				frameDelayCount--;
@@ -170,5 +171,7 @@ public class GameAnimation implements IRenderableObject {
 			g2.drawImage(image.getSubimage(frameWidth * this.currentFrame, 0, frameWidth, frameHeight), null, x, y);
 		}
 	}
+	
+	
 
 }

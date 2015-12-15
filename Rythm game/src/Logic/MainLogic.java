@@ -28,6 +28,7 @@ public class MainLogic implements IRenderableHolder, IGameLogic {
 	private PlayerStatus player;
 	private Beatmap map;
 	private NowPlaying now;
+	private HitSound h;
 	private List<TargetObject> onScreenObject = new ArrayList<TargetObject>();
 	private List<GameAnimation> onScreenAnimation = new ArrayList<GameAnimation>();
 
@@ -37,9 +38,10 @@ public class MainLogic implements IRenderableHolder, IGameLogic {
 	public synchronized void onStart() {
 		background = new GameBackground();
 		player = new PlayerStatus();
-		map = new Beatmap("res/map/test1.txt", 2); // 2 sec
+		map = new Beatmap("res/map/test1.txt", 2,1); // 2 sec
 		readyToRender = true;
 		now = new NowPlaying();
+		h = new HitSound();
 		now.play();
 		System.out.println("onstart");
 	}
@@ -65,25 +67,24 @@ public class MainLogic implements IRenderableHolder, IGameLogic {
 		now.update();
 
 		background.updateBackground(player.getHp());
-		HitSound h = new HitSound();
 
 		// Time up
-		if (now.getTime() >= 123600) {
-			now.music.pause();
-			JOptionPane.showMessageDialog(null, "SCORE :" + player.getScore());
-			onExit();
-			// HighScoreUtility.recordHighScore(player.getScore());
+		if (now.getTime() >= 130011) {
+			   now.stop();
+			   JOptionPane.showMessageDialog(null, "SCORE :" + player.getScore());
+			   onExit();
+			   // HighScoreUtility.recordHighScore(player.getScore());
 
-			return;
-		}
-		if (player.getHp() <= 0) {
-			now.music.pause();
-			h.play(4);
-			JOptionPane.showMessageDialog(null, "SCORE :" + player.getScore());
-			onExit();
-			// HighScoreUtility.recordHighScore(player.getScore());
-			return;
-		}
+			   return;
+			  }
+			  if (player.getHp() <= 0) {
+			   now.stop();
+			   h.play(4);
+			   JOptionPane.showMessageDialog(null, "SCORE :" + player.getScore());
+			   onExit();
+			   // HighScoreUtility.recordHighScore(player.getScore());
+			   return;
+			  }
 		// System.out.println(map.getnote().getSpawntime());
 		// System.out.println(now.getTime() - map.getnote().getSpawntime());
 		// if it time to spawn
@@ -99,61 +100,47 @@ public class MainLogic implements IRenderableHolder, IGameLogic {
 		// Shoot
 		TargetObject target = null;
 		if (player.isDisplayingArea(InputUtility.getMouseX(), InputUtility.getMouseY())) { // mouse
-			// System.out.println(InputUtility.getKeyPressed(KeyEvent.VK_SPACE));
-
-			if ((InputUtility.isMouseLeftClicked() || InputUtility.getKeyTriggered(KeyEvent.VK_SPACE))) {
-				// shot
-
-				/*
-				 * manually create beat map
-				 * 
-				 * try { BufferedWriter out = new BufferedWriter(new
-				 * FileWriter("res/file.txt"));
-				 * 
-				 * System.out.println("HERE!" + now.getTime());
-				 * 
-				 * } catch (IOException e) { }
-				 */
-
-				player.shoot();
-				target = getTopMostTargetAt(InputUtility.getMouseX(), InputUtility.getMouseY());
-				if (target != null) { // hit something
+			// System.odt.println(InputUtility.getKeyPressed(KeyEvent.VK_SPACE));
+			target = getTopMostTargetAt(InputUtility.getMouseX(), InputUtility.getMouseY());
+			if (target != null) { // on something
+				if ((InputUtility.isMouseLeftClicked() || InputUtility.getKeyTriggered(KeyEvent.VK_SPACE))) {
+					// on somthing & shoot
+					player.shoot();
 					if (target instanceof ShortNote) {
 						target.hit(player, now);
 						onScreenAnimation.add(
-								DrawingUtility.createFireworkAt((int)target.getX(), (int)target.getY()));
-					}
-					if (target instanceof LongNote) {
+								DrawingUtility.createFireworkAt(InputUtility.getMouseX(), InputUtility.getMouseY()));
+					} else if (target instanceof LongNote) {
 						// target.hit(player, now);
-
 					}
-				} else { // hit notting
+				}
+			} else { // on notihng
+				if ((InputUtility.isMouseLeftClicked() || InputUtility.getKeyTriggered(KeyEvent.VK_SPACE))) {
 					player.addMiss();
 					// animation miss
 				}
 			}
 		}
-
 		// Update target object
-		for (TargetObject obj : onScreenObject) {
-			obj.move();
-			System.out.println("Updated X = " + obj.getX() + " Y = " + obj.getY() + " R = " + obj.getRadius());
-			System.out.println("onScreenObjectsize =" + onScreenObject.size());
+		  for (TargetObject obj : onScreenObject) {
+		   obj.move();
+		   if (!obj.isOnscreen()) {
+    player.addMiss();
+		   }
+		   System.out.println("Updated X = " + obj.getX() + " Y = " + obj.getY() + " R = " + obj.getRadius());
+		   System.out.println("onScreenObjectsize =" + onScreenObject.size());
 
-		}
+		  }
 
 		// Update animation
 		for (GameAnimation obj : onScreenAnimation) {
 			obj.updateAnimation();
-			System.out.println("UpdatedAnimate X = " + obj.getX() + " Y = " + obj.getY() + " R = " );
 		}
 
 		player.update();
 
 		// Remove unused image
 		for (int i = onScreenObject.size() - 1; i >= 0; i--) {
-			if (!onScreenObject.get(i).isClicked() && onScreenObject.get(i).isDestroy())
-				player.addMiss();
 			if (onScreenObject.get(i).isDestroy())
 				onScreenObject.remove(i);
 		}

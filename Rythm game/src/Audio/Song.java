@@ -8,14 +8,18 @@ public class Song {
 	private static Music song;
 	private boolean isPlay = false;
 
-	static {
+	
+	
+	public Song(String SongURL) {
+		super();
+		this.isPlay = false;
 		TinySound.init();
-		song = TinySound.loadMusic("res/sound/music.wav");
+		song = TinySound.loadMusic(SongURL);
 
 	}
 
 	public void play() {
-		song.play(true);
+		song.play(false); //no looping
 		setPlay(true);
 	}
 
@@ -27,6 +31,10 @@ public class Song {
 	public void resume() {
 		song.resume();
 		setPlay(true);
+	}
+	public void stop(){
+		song.pause();
+		song.rewind();
 	}
 
 	public void shutdown() {
