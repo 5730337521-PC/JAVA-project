@@ -10,9 +10,9 @@ public class BeatmapException extends Exception{
 	@Override
 	public String getMessage() {
 		if (errorType == 0)
-			return "No Beatmap found";
+			return "No Beatmap Found";
 		else if (errorType == 1)
-			return "Wrong record format";
+			return "Wrong format";
 		else
 			return "";
 	}

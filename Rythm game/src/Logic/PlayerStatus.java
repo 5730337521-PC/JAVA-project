@@ -51,7 +51,7 @@ public class PlayerStatus implements Graphic.IRenderableObject {
 	}
 
 	public void addScore(int hittype) { // 100 50 10
-		score += MAX_score * hittype * combocount / 100;
+		score += MAX_score * hittype * (combocount+1) / 100;
 	}
 
 	public void addMaxhit() {

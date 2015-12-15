@@ -2,6 +2,7 @@ package ui;
 
 import javax.swing.JPanel;
 
+import Beatmap.BeatmapException;
 import Graphic.IRenderableHolder;
 import Utility.InputUtility;
 import Logic.IGameLogic;
@@ -23,7 +24,7 @@ public class GameManager {
 		Ingame = ingame;
 	}
 
-	public static void rungame(IGameLogic gameLogic) {
+	public static void rungame(IGameLogic gameLogic) throws BeatmapException {
 		gt = new GameTitle();
 		gc = new GameScreen((IRenderableHolder) gameLogic);
 		frame = new GameWindow(gt);

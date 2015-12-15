@@ -10,6 +10,7 @@ import javax.swing.JOptionPane;
 import Audio.HitSound;
 import Audio.NowPlaying;
 import Beatmap.Beatmap;
+import Beatmap.BeatmapException;
 import Beatmap.LongNote;
 import Beatmap.ShortNote;
 import Beatmap.TargetObject;
@@ -35,7 +36,7 @@ public class MainLogic implements IRenderableHolder, IGameLogic {
 	private boolean readyToRender = false; // For dealing with synchronization
 
 	// Called before enter the game loop
-	public synchronized void onStart() {
+	public synchronized void onStart() throws BeatmapException {
 		background = new GameBackground();
 		player = new PlayerStatus();
 		map = new Beatmap("res/map/test1.txt", 2,1); // 2 sec
@@ -88,11 +89,11 @@ public class MainLogic implements IRenderableHolder, IGameLogic {
 		// System.out.println(map.getnote().getSpawntime());
 		// System.out.println(now.getTime() - map.getnote().getSpawntime());
 		// if it time to spawn
-
 		if (now.getTime() - map.getnote().getSpawntime() >= 0) {
 			onScreenObject.add(map.getnote()); // add note to screen
 			System.out.println("X = " + map.getnote().getX() + " Y = " + map.getnote().getY() + " R = "
 					+ map.getnote().getRadius());
+			if(map.getnote() != null)
 			map.NextTargetIndex(); // point to next note then repeat
 			System.out.println("spawn");
 		}

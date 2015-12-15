@@ -15,7 +15,7 @@ public class Beatmap {
 	private int level;
 	private int hitduration; // sec
 
-	public Beatmap(String fileURL, int hitduration, int level) {
+	public Beatmap(String fileURL, int hitduration, int level) throws BeatmapException {
 		super();
 		map = new ArrayList<TargetObject>();
 		this.level = level;
@@ -24,7 +24,7 @@ public class Beatmap {
 		load(fileURL);
 	}
 
-	public void load(String fileURL) {// res/map/
+	public void load(String fileURL) throws BeatmapException{// res/map/
 		File file = new File(fileURL);
 		int type = 0;
 		int timing = 0;
@@ -36,10 +36,12 @@ public class Beatmap {
 			br = new BufferedReader(new FileReader(file));
 		} catch (FileNotFoundException e1) {
 			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			throw new BeatmapException(0); 
 		}
 		try {
 			line = br.readLine();
+			if(line==null)
+			throw new BeatmapException(1); 
 			while (line != null) {
 				int hardness = 0;
 				switch (level) {
@@ -63,6 +65,8 @@ public class Beatmap {
 				
 				int index1 = line.indexOf(',');
 				int index2 = line.indexOf(':');
+				if(index1==-1)
+					throw new BeatmapException(1); 
 				System.out.println("hardness = "+hardness);
 				type = Integer.parseInt(line.substring(0, index1));
 				if (type == 1) {
@@ -113,10 +117,6 @@ public class Beatmap {
 
 	public int getTargetIndex() {
 		return targetIndex;
-	}
-	
-	public int getSize(){
-		return map.size();
 	}
 
 }

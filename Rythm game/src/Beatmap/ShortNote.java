@@ -17,12 +17,13 @@ public class ShortNote extends TargetObject {
 	public void hit(PlayerStatus player, NowPlaying now) {
 		// TODO Auto-generated method stub
 		float delta = Math.abs(now.getTime() - timing);
+		System.out.println(delta / (hitDuration / 2)+"!!!!!!!!");
 		if (delta > hitDuration / 2) { // hit
 			this.isDestroy = true;
-			if (delta / (hitDuration / 2) <= 0.1) { // maxhit
+			if (delta / (hitDuration / 2) <= 1200) { // maxhi
 				player.addScore(100);
 				player.addMaxhit();
-			} else if (delta / (hitDuration / 2) <= 0.5) { // hit50
+			} else if (delta / (hitDuration / 1500) <= 2) { // hit50
 				player.addScore(50);
 				player.addHit50();
 			} else { // hit10
