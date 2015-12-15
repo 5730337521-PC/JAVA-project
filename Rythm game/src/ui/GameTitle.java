@@ -2,29 +2,16 @@ package ui;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.imageio.ImageIO;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import Audio.HitSound;
 import Graphic.DrawingUtility;
-import Graphic.GameAnimation;
-import Graphic.IRenderableHolder;
-import Graphic.IRenderableObject;
 import Logic.IGameLogic;
 import Logic.MainLogic;
-import Utility.InputUtility;
 
 public class GameTitle extends JPanel {
 	;
@@ -77,22 +64,7 @@ public class GameTitle extends JPanel {
 			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub
 				// start game
-				if (logic instanceof IRenderableHolder) {
-					gc = new GameScreen((IRenderableHolder) logic);
-					System.out.println("this");
-				} else {
-					gc = new GameScreen(new IRenderableHolder() {
-						private List<IRenderableObject> emptyList = new ArrayList<IRenderableObject>(0);
-
-						@Override
-						public List<IRenderableObject> getSortedRenderableObject() {
-							System.out.println("this");
-							return emptyList;
-						}
-					});
-				}
-				System.out.println("that");
-				GameManager.frame.switchScene(gc);
+				GameManager.newGame();
 			}
 		});
 

@@ -1,6 +1,5 @@
 package Utility;
 
-
 public class InputUtility {
 	private static int mouseX, mouseY;
 	private static boolean mouseLeftDown, mouseRightDown, mouseOnScreen;
@@ -49,6 +48,8 @@ public class InputUtility {
 	}
 
 	public static boolean isMouseLeftClicked() {
+//		if(mouseLeftTriggered)
+//		System.out.println("Click");
 		return InputUtility.mouseLeftTriggered;
 	}
 
@@ -65,6 +66,7 @@ public class InputUtility {
 	}
 
 	public static boolean getKeyPressed(int key) {
+//		System.out.println(key+"!!!!!!");
 		if (key < 0 || key > 255)
 			return false;
 		return InputUtility.keyPressed[key];
@@ -90,9 +92,10 @@ public class InputUtility {
 	}
 
 	public static void postUpdate() {
-		//check on screen
-//		mouseOnScreen = mouseX >= 0 && mouseX <= ConfigurableOption.screenWidth && mouseY >= 0
-//				&& mouseY <= ConfigurableOption.screenHeight;
+		// check on screen
+		// mouseOnScreen = mouseX >= 0 && mouseX <=
+		// ConfigurableOption.screenWidth && mouseY >= 0
+		// && mouseY <= ConfigurableOption.screenHeight;
 		mouseLeftTriggered = false;
 		mouseRightTriggered = false;
 

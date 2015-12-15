@@ -3,18 +3,21 @@ package ui;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JPanel;
+
 import Graphic.IRenderableHolder;
 import Graphic.IRenderableObject;
 import Utility.InputUtility;
 import Logic.IGameLogic;
 
+public class GameManager {
+	private static final int REFRESH_DELAY = 16;
 
-public class GameManager{
 	public static GameWindow frame;
 	public static GameScreen gc;
 	public static GameTitle gt;
 	private static boolean Ingame = false;
-	
+	private static JPanel nextScene = null;
 
 	public static boolean isIngame() {
 		return Ingame;
@@ -25,38 +28,49 @@ public class GameManager{
 	}
 
 	public static void rungame(IGameLogic gameLogic) {
-	
 		gt = new GameTitle();
-		if(gameLogic instanceof IRenderableHolder){
-			gc = new GameScreen((IRenderableHolder)gameLogic);
-		}else{
-			gc = new GameScreen(new IRenderableHolder() {
-				private List<IRenderableObject> emptyList = new ArrayList<IRenderableObject>(0);
-				@Override
-				public List<IRenderableObject> getSortedRenderableObject() {
-					return emptyList;
-				}
-			});
-		}
+		gc = new GameScreen((IRenderableHolder) gameLogic);
 		frame = new GameWindow(gt);
 
 		while (true) {
 			try {
-				Thread.sleep(16);
+				Thread.sleep(REFRESH_DELAY);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			frame.getCurrentScene().repaint();
+			System.out.println("running");	
+			System.out.println(frame.getCurrentScene());
 
+			frame.getCurrentScene().repaint();
 			if (frame.getCurrentScene() instanceof GameScreen) {
-				if (!Ingame) {
-//					AudioUtility.playSound("GameSound");
-					Ingame = true;
-				}
+				System.out.println("updating logic");
 				gameLogic.logicUpdate();
 				InputUtility.postUpdate();
 			}
+			if (nextScene != null) {
+				if (frame.getCurrentScene() instanceof GameScreen)
+					gameLogic.onExit();
+					Ingame = false;
+					frame.switchScene(nextScene);
+			}
+			if (nextScene instanceof GameScreen && !Ingame){
+				System.out.println("onstart");
+				gameLogic.onStart();
+				Ingame = true;
+				frame.switchScene(nextScene);
+			}
+			nextScene = null;
 		}
+		
+		
 	}
-
+	public static void goToTitle(){
+		nextScene = gt;
+	}
+	
+	public static void newGame(){
+		nextScene = gc;
+	}
+	
+	
 }

@@ -8,11 +8,6 @@ public class Main {
 		// TODO Auto-generated method stub
 		IGameLogic logic = new MainLogic();
 		GameManager.rungame(logic);
-		if(GameManager.frame.getCurrentScene() == GameManager.gc)
-		while(true){
-			logic.logicUpdate();
-		}
-		
 	}
 
 }

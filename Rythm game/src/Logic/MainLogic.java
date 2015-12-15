@@ -1,11 +1,17 @@
 package Logic;
 
 import java.awt.event.KeyEvent;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane.MaximizeAction;
+
+import Audio.HitSound;
 import Audio.NowPlaying;
 import Beatmap.Beatmap;
 import Beatmap.LongNote;
@@ -34,18 +40,20 @@ public class MainLogic implements IRenderableHolder, IGameLogic {
 	// Called before enter the game loop
 	public synchronized void onStart() {
 		// background = new GameBackground();
+		background = new GameBackground();
 		player = new PlayerStatus();
 		map = new Beatmap("res/map/test.txt", 2000); // 2 sec
 		readyToRender = true;
 		now = new NowPlaying();
-		System.out.println("loading BM");
 		now.play();
+		System.out.println("onstart");
 	}
 
 	// Called after exit the game loop
 	public synchronized void onExit() {
 		readyToRender = false;
 		onScreenObject.clear();
+		GameManager.goToTitle();
 	}
 
 	public void logicUpdate() {
@@ -57,11 +65,11 @@ public class MainLogic implements IRenderableHolder, IGameLogic {
 		 */
 
 		// Update background according to HP
-		
-		//update time
+
+		// update time
 		now.update();
-		
-		background.updateBackground(player);
+
+		background.updateBackground(player.getHp());
 
 		// Time up
 		if (now.getTime() >= now.songduration) {
@@ -70,30 +78,44 @@ public class MainLogic implements IRenderableHolder, IGameLogic {
 
 			return;
 		}
+		// System.out.println(map.getnote().getSpawntime());
+		// System.out.println(now.getTime() - map.getnote().getSpawntime());
+		// if it time to spawn
 
-		// if it time to spawn spawn
 		if (now.getTime() - map.getnote().getSpawntime() >= 0) {
 			onScreenObject.add(map.getnote()); // add note to screen
 			map.NextTargetIndex(); // point to next note then repeat
+			HitSound h = new HitSound();
+			h.play(0);
+			System.out.println("spawn");
 		}
 
 		// Shoot
 		TargetObject target = null;
-		if (!player.isDisplayingArea(InputUtility.getMouseX(), InputUtility.getMouseY())) { // mouse
-																							// on
-																							// screen
+		if (player.isDisplayingArea(InputUtility.getMouseX(), InputUtility.getMouseY())) { // mouse
+			System.out.println((InputUtility.isMouseLeftClicked() || InputUtility.getKeyTriggered(KeyEvent.VK_SPACE)));
 			if ((InputUtility.isMouseLeftClicked() || InputUtility.getKeyTriggered(KeyEvent.VK_SPACE))) {
 				// shot
+
+				/* manually create beat map
+				 * 
+				 * try { BufferedWriter out = new BufferedWriter(new
+				 * FileWriter("res/file.txt"));
+				 * 
+				 * System.out.println("HERE!" + now.getTime());
+				 * 
+				 * } catch (IOException e) { }
+				 */
 				player.shoot();
 				target = getTopMostTargetAt(InputUtility.getMouseX(), InputUtility.getMouseY());
-				if (target != null) { // hit somthing
+				if (target != null) { // hit something
 					if (target instanceof ShortNote) {
 						target.hit(player, now);
 						onScreenAnimation.add(
 								DrawingUtility.createFireworkAt(InputUtility.getMouseX(), InputUtility.getMouseY()));
 					}
 					if (target instanceof LongNote) {
-//						target.hit(player, now);
+						// target.hit(player, now);
 
 					}
 				} else { // hit notting
@@ -112,7 +134,7 @@ public class MainLogic implements IRenderableHolder, IGameLogic {
 		for (GameAnimation obj : onScreenAnimation) {
 			obj.updateAnimation();
 		}
-		
+
 		player.update();
 
 		// Remove unused image
@@ -124,9 +146,7 @@ public class MainLogic implements IRenderableHolder, IGameLogic {
 			if (!onScreenAnimation.get(i).isVisible())
 				onScreenAnimation.remove(i);
 		}
-		
-		
-		
+
 	}
 
 	private TargetObject getTopMostTargetAt(int x, int y) {

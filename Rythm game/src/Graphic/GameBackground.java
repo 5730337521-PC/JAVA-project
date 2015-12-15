@@ -3,25 +3,16 @@ package Graphic;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
-import Logic.PlayerStatus;
-
 public class GameBackground implements IRenderableObject {
 
-	private BufferedImage bgImage;
-	private int currentX = 0;
-	private int imageWidth;
+	private static BufferedImage bgImage = null;
 
-	public GameBackground(PlayerStatus player) {
+	public GameBackground() {
 		bgImage = DrawingUtility.bg;
-		if (bgImage != null) {
-			imageWidth = bgImage.getWidth();
-		} else {
-			imageWidth = 0;
-		}
 	}
 
-	public void updateBackground(PlayerStatus player) {
-		if (player.getHp() < 50) {
+	public void updateBackground(int HP) {
+		if (HP <= 50) {
 			bgImage = DrawingUtility.bgred;
 		}
 	}

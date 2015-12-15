@@ -2,6 +2,9 @@ package Logic;
 
 import java.awt.Graphics2D;
 
+import Audio.HitSound;
+import Graphic.DrawingUtility;
+
 public class PlayerStatus implements Graphic.IRenderableObject {
 	private static final int MAX_score = 200;
 	private static final int MAX_HP = 100;
@@ -34,7 +37,13 @@ public class PlayerStatus implements Graphic.IRenderableObject {
 	}
 
 	public void update() { // update after each BPM
-		this.accuracy = (maxhit * 100 + hit50 * 50 + hit10 * 10) / (maxhit + hit10 + hit50 + misscount);  //accupdate
+		try {
+			this.accuracy = (maxhit * 100 + hit50 * 50 + hit10 * 10) / (maxhit + hit10 + hit50 + misscount);  //accupdate
+		} catch (ArithmeticException e) {
+			// TODO Auto-generated catch block
+			accuracy = 100;
+		}
+		
 		if (combocount > maxcombo) {  //maxcomboupdate
 			maxcombo = combocount;
 		}
@@ -123,12 +132,14 @@ public class PlayerStatus implements Graphic.IRenderableObject {
 
 	public boolean isDisplayingArea(int mouseX, int mouseY) {
 		// TODO Auto-generated method stub
+//		System.out.println("mouseX : " + mouseX);
 		return mouseX<=800 && mouseY <= 600 && mouseX >= 0 && mouseY >=0;
 	}
 
 	public void shoot() {
 		// TODO Auto-generated method stub
-		Audio.HitSound.playSound("shoot");
+		HitSound h = new HitSound();
+		h.play(1);
 	}
 
 	@Override
@@ -146,7 +157,7 @@ public class PlayerStatus implements Graphic.IRenderableObject {
 	@Override
 	public void render(Graphics2D g2d) {
 		// TODO Auto-generated method stub
-		
+		DrawingUtility.drawStatusBar(g2d,  this.getScore(), this.getCombocount(),this.getHp());
 	}
 
 	

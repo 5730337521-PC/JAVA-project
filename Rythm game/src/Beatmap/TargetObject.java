@@ -1,5 +1,7 @@
 package Beatmap;
 
+import java.awt.Graphics2D;
+
 import Audio.NowPlaying;
 import Graphic.IRenderableObject;
 import Logic.PlayerStatus;
@@ -49,7 +51,7 @@ public abstract class TargetObject implements IRenderableObject {
 	@Override
 	public int getZ() {
 		// TODO Auto-generated method stub
-		return 0;
+		return z;
 	}
 
 	public abstract void hit(PlayerStatus player, NowPlaying now);

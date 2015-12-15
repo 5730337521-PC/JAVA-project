@@ -19,6 +19,7 @@ public class LongNote extends TargetObject {
 	@Override
 	public void render(Graphics2D g2d) {
 		// TODO Auto-generated method stub
+//		System.out.println("!!!!!!!!!!!!!!");
 		DrawingUtility.drawLongNote(g2d, x, y, radius, isPointerOver);
 	}
 

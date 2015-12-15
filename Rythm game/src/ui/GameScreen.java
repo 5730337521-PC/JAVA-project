@@ -1,32 +1,31 @@
 package ui;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
-import Graphic.DrawingUtility;
 import Graphic.IRenderableHolder;
 import Graphic.IRenderableObject;
 import Utility.InputUtility;
 
+
+
 public class GameScreen extends JPanel {
 
-	private static final long serialVersionUID = 7247841512480622650L;
 	private IRenderableHolder renderableHolder;
-	protected static final BufferedImage bg = DrawingUtility.getImage("res/img/bg/blue.jpg");
 
-	public GameScreen(IRenderableHolder holder) {
+	protected GameScreen(IRenderableHolder holder) {
 		this.renderableHolder = holder;
-		this.setPreferredSize(new Dimension(800, 600));
-		this.setLayout(null);
-		repaint();
 		this.addListener();
+		this.setPreferredSize(new Dimension(800, 600));
 		setDoubleBuffered(true);
 	}
 
@@ -37,12 +36,15 @@ public class GameScreen extends JPanel {
 			public void mouseReleased(MouseEvent e) {
 				// TODO Auto-generated method stub
 				InputUtility.setMouseLeftDown(false);
+
 			}
 
 			@Override
 			public void mousePressed(MouseEvent e) {
 				// TODO Auto-generated method stub
-				InputUtility.setMouseLeftDown(true);
+				if (e.getButton() == 1) {
+					InputUtility.setMouseLeftDown(true);
+				}
 			}
 
 			@Override
@@ -55,6 +57,7 @@ public class GameScreen extends JPanel {
 			public void mouseEntered(MouseEvent e) {
 				// TODO Auto-generated method stub
 				InputUtility.setMouseOnScreen(true);
+
 			}
 
 			@Override
@@ -86,6 +89,29 @@ public class GameScreen extends JPanel {
 
 			}
 		});
+		this.addKeyListener(new KeyListener() {
+
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				InputUtility.setKeyPressed(e.getKeyCode(), false);
+
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				InputUtility.setKeyPressed(e.getKeyCode(), true);
+				InputUtility.setKeyTriggered(e.getKeyCode(), true);
+
+			}
+		});
 	}
 
 	@Override
@@ -93,13 +119,15 @@ public class GameScreen extends JPanel {
 		super.paintComponents(g);
 		Graphics2D g2 = (Graphics2D) g;
 
-		// render all the objects
+		// assign the background color to be "black"
+		g2.setBackground(Color.BLACK);
+
+		// clear all the objects
+		Dimension dim = getSize();
+		g2.clearRect(0, 0, (int) dim.getWidth(), (int) dim.getHeight());
+
+		// reder all the objects
 		for (IRenderableObject renderable : renderableHolder.getSortedRenderableObject()) {
 			renderable.render(g2);
 		}
-	}
-	
-//	public void paint(Graphics g) {
-//		g.drawImage(bg, 0, 0, null);
-//	}
-}
+	}}

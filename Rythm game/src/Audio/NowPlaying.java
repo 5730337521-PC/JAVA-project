@@ -9,15 +9,17 @@ public class NowPlaying {
 	public NowPlaying() {
 		music = new Song();
 		songposition = 0;
+		startingtime = 0;
 	}
 
-	public void play(){	
+	public void play() {
 		music.play();
 		startingtime = (int) System.currentTimeMillis();
 	}
 
-	public void update() {
+	public void update() { //thread
 		songposition = (int) System.currentTimeMillis() - startingtime;
+		System.out.println(songposition);
 	}
 
 	public int getTime() {

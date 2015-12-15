@@ -1,55 +1,48 @@
 package Audio;
 
-//import java.applet.Applet;
-//import java.applet.AudioClip;
-//
-////import org.newdawn.slick.openal.Audio;
-////import org.newdawn.slick.openal.AudioLoader;
-////import org.newdawn.slick.util.ResourceLoader;
-//
-//import Graphic.IRenderableHolder;
-//
-//public class HitSound {
-////	private static Audio HitSound1;
-//	public static AudioClip coinSound;
-//	public static AudioClip acShoot;
-////	private /*soundtype*/ HitSound2;
-////	private /*soundtype*/ HitSound3;
-////	private /*soundtype*/ HitSound4;
-//	
-//	static {
-//		try {
-////			HitSound1 = AudioLoader.getAudio("OGG", ResourceLoader.getResourceAsStream("res/sound/test.ogg"));
-////			acShoot = Applet.newAudioClip(arg0)
-//			ClassLoader cloader = IRenderableHolder.class.getClassLoader();
-//			coinSound = Applet.newAudioClip((cloader.getResource("res/sound/yyy.wav")).toURI().toURL());;		
-//			acShoot = Applet.newAudioClip((cloader.getResource("res/sound/shoot.wav")).toURI().toURL());
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//	}
-//}
-
-
-
-import java.applet.Applet;
-import java.applet.AudioClip;
+import kuusisto.tinysound.Sound;
+import kuusisto.tinysound.TinySound;
 
 public class HitSound {
-
-	private static AudioClip acShoot;
-	private static AudioClip acCollect;
+	private static Sound HitSound1;
+	private static Sound HitSound2;
+	private static Sound HitSound3;
+	private static Sound HitSound4;
 
 	static {
-		ClassLoader load = HitSound.class.getClassLoader();
-		acShoot = Applet.newAudioClip(load.getResource("res/sound/2ne1.mp3"));
-		acCollect = Applet.newAudioClip(load.getResource("res/se/collect.wav"));
+		try {
+			TinySound.init();
+			HitSound1 = TinySound.loadSound("res/sound/hit1.wav");
+			HitSound2 = TinySound.loadSound("res/sound/hit2.wav");
+			HitSound3 = TinySound.loadSound("res/sound/hit3.wav");
+			HitSound4 = TinySound.loadSound("res/sound/hit4.wav");
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
-	public static void playSound(String identifier) {
-		if (identifier.equalsIgnoreCase("shoot")) {
-			acShoot.play();
-		} else
-			acCollect.play();
+	public void play(int type) {
+		switch (type) {
+		case 1:
+			HitSound1.play();
+			break;
+		case 2:
+			HitSound2.play();
+			break;
+		case 3:
+			HitSound3.play();
+			break;
+		case 4:
+			HitSound4.play();
+			break;
+
+		default:
+			HitSound1.play();
+			break;
+		}
+	}
+	public void shutdown(){
+		TinySound.shutdown();
 	}
 }
