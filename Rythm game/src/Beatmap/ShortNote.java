@@ -37,12 +37,13 @@ public class ShortNote extends TargetObject {
 
 	@Override
 	public void move() { // 1 tick 1/60sec
-		if (onScreen && !isDestroy) {
+	if (onScreen && !isDestroy) {
 			// TODO Auto-generated method stub
+			System.out.println("move");
 			y -= (int) (speedY / TICKRATE);
 			speedY += (int) (GRAVITY / TICKRATE);
 			radius += (int) (speedradius / TICKRATE);
-		}
+	}
 	}
 
 	@Override

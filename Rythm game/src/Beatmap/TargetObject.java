@@ -8,7 +8,7 @@ import Logic.PlayerStatus;
 
 public abstract class TargetObject implements IRenderableObject {
 	protected int x, y, z;
-	protected final static int MAX_Radius = 200, Y_MAX = 50,Y_MIN = 640, GRAVITY = 150;
+	protected final static int MAX_Radius = 200, Y_MAX = 50,Y_MIN = 500, GRAVITY = 150;
 	protected int speedY;
 	protected final static int speedradius = 100;
 	protected final static int TICKRATE = 60; // 1/60 per frame
@@ -28,6 +28,7 @@ public abstract class TargetObject implements IRenderableObject {
 		this.isHit = false;
 		this.spawntime = timing - hitDuration / 2;
 		this.onScreen = false;
+		this.radius = 100;
 	}
 	
 	public boolean contains(int x, int y) {
@@ -45,7 +46,7 @@ public abstract class TargetObject implements IRenderableObject {
 	@Override
 	public boolean isVisible() {
 		// TODO Auto-generated method stub
-		return false;
+		return isVisible();
 	}
 
 	@Override

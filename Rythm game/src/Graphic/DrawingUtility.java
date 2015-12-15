@@ -114,8 +114,6 @@ public class DrawingUtility {
 		g2.fillOval(x - radius, y - radius, radius * 2, radius * 2);
 		g2.setColor(Color.RED);
 		g2.fillOval(x - radius + 2, y - radius + 2, (radius - 2) * 2, (radius - 2) * 2);
-		System.out.print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-
 		if (isPointerOver) {
 			g2.setComposite(transcluentWhite);
 			g2.setColor(Color.WHITE);
@@ -129,8 +127,6 @@ public class DrawingUtility {
 		g2.fillOval(x - radius, y - radius, radius * 2, radius * 2);
 		g2.setColor(Color.GREEN);
 		g2.fillOval(x - radius + 2, y - radius + 2, (radius - 2) * 2, (radius - 2) * 2);
-//		System.out.print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-
 		if (isPointerOver) {
 			g2.setComposite(transcluentWhite);
 			g2.setColor(Color.WHITE);

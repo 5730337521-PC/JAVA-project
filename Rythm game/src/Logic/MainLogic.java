@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import javax.swing.JOptionPane;
 import javax.swing.plaf.basic.BasicInternalFrameTitlePane.MaximizeAction;
 
 import Audio.HitSound;
@@ -24,6 +25,7 @@ import Graphic.IRenderableHolder;
 import Graphic.IRenderableObject;
 import Utility.InputUtility;
 import ui.GameManager;
+import ui.GameScreen;
 
 public class MainLogic implements IRenderableHolder, IGameLogic {
 
@@ -71,21 +73,25 @@ public class MainLogic implements IRenderableHolder, IGameLogic {
 		background.updateBackground(player.getHp());
 
 		// Time up
-		if (now.getTime() >= now.songduration) {
+		if (now.getTime() >=123600 || player.getHp() < 0) {
+			now.music.pause();
+			JOptionPane.showMessageDialog(null,"SCORE :"+player.getScore() );
 			onExit();
 			// HighScoreUtility.recordHighScore(player.getScore());
 
 			return;
 		}
+		
+		if(player.getHp() < 50){
+			background.updateBackground(0);
+		}
 		// System.out.println(map.getnote().getSpawntime());
 		// System.out.println(now.getTime() - map.getnote().getSpawntime());
 		// if it time to spawn
-
-		if (now.getTime() - map.getnote().getSpawntime() >= 0) {
+		if (map.getnote() == null) return;
+			if (now.getTime() - map.getnote().getSpawntime() >= 0) {
 			onScreenObject.add(map.getnote()); // add note to screen
 			map.NextTargetIndex(); // point to next note then repeat
-			HitSound h = new HitSound();
-			h.play(0);
 			System.out.println("spawn");
 		}
 
@@ -145,6 +151,7 @@ public class MainLogic implements IRenderableHolder, IGameLogic {
 		for (int i = onScreenAnimation.size() - 1; i >= 0; i--) {
 			if (!onScreenAnimation.get(i).isVisible())
 				onScreenAnimation.remove(i);
+			System.out.println("Remove");
 		}
 
 	}
