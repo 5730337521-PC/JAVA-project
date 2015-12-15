@@ -1,8 +1,13 @@
 package ui;
 
-import javax.swing.JPanel;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
-import Beatmap.BeatmapException;
+import javax.swing.JButton;
+import javax.swing.JPanel;
+import javax.xml.stream.events.StartDocument;
+
+import Audio.HitSound;
 import Graphic.IRenderableHolder;
 import Utility.InputUtility;
 import Logic.IGameLogic;
@@ -15,6 +20,8 @@ public class GameManager {
 	public static GameTitle gt;
 	private static boolean Ingame = false;
 	private static JPanel nextScene = null;
+	private static Howto howto;
+	public static Thread thread;
 
 	public static boolean isIngame() {
 		return Ingame;
@@ -24,7 +31,7 @@ public class GameManager {
 		Ingame = ingame;
 	}
 
-	public static void rungame(IGameLogic gameLogic) throws BeatmapException {
+	public static void rungame(IGameLogic gameLogic) {
 		gt = new GameTitle();
 		gc = new GameScreen((IRenderableHolder) gameLogic);
 		frame = new GameWindow(gt);
@@ -35,7 +42,7 @@ public class GameManager {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			System.out.println("running");	
+			System.out.println("running");
 			System.out.println(frame.getCurrentScene());
 
 			frame.getCurrentScene().repaint();
@@ -47,10 +54,10 @@ public class GameManager {
 			if (nextScene != null) {
 				if (frame.getCurrentScene() instanceof GameScreen)
 					gameLogic.onExit();
-					Ingame = false;
-					frame.switchScene(nextScene);
+				Ingame = false;
+				frame.switchScene(nextScene);
 			}
-			if (nextScene instanceof GameScreen && !Ingame){
+			if (nextScene instanceof GameScreen && !Ingame) {
 				System.out.println("onstart");
 				gameLogic.onStart();
 				Ingame = true;
@@ -58,16 +65,71 @@ public class GameManager {
 			}
 			nextScene = null;
 		}
-		
-		
+
 	}
-	public static void goToTitle(){
+
+	public static void goToTitle() {
 		nextScene = gt;
 	}
-	
-	public static void newGame(){
+
+	public static void newGame() {
 		nextScene = gc;
 	}
-	
-	
+
+	public static void startThread() {
+		thread = new Thread(howto);
+		thread.start();
+	}
+
+	public static void runHowto() {
+		howto = new Howto();
+		frame.switchScene(howto);
+		//howto.repaint();
+		startThread();
+		while (thread.isAlive()) {
+			//frame.repaint();
+		}
+		if (!thread.isAlive()) {
+			JButton back = new JButton();
+			back.setBorderPainted(false);
+			back.setContentAreaFilled(false);
+			back.setFocusPainted(false);
+			back.setOpaque(false);
+			back.setBounds(640, 446, 132, 132);
+			back.addMouseListener(new MouseListener() {
+
+				@Override
+				public void mouseReleased(MouseEvent e) {
+					// TODO Auto-generated method stub
+
+				}
+
+				@Override
+				public void mousePressed(MouseEvent e) {
+					// TODO Auto-generated method stub
+
+				}
+
+				@Override
+				public void mouseExited(MouseEvent e) {
+					// TODO Auto-generated method stub
+
+				}
+
+				@Override
+				public void mouseEntered(MouseEvent e) {
+					// TODO Auto-generated method stub
+					HitSound h = new HitSound();
+					h.play(3);
+				}
+
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					// TODO Auto-generated method stub
+					GameManager.goToTitle();
+				}
+			});
+		}
+	}
+
 }

@@ -1,5 +1,7 @@
 package ui;
 
+import java.awt.Graphics;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -30,4 +32,5 @@ public class GameWindow extends JFrame {
 	public JPanel getCurrentScene() {
 		return currentScene;
 	}
+	
 }

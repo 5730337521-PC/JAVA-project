@@ -15,7 +15,7 @@ public class Beatmap {
 	private int level;
 	private int hitduration; // sec
 
-	public Beatmap(String fileURL, int hitduration, int level) throws BeatmapException {
+	public Beatmap(String fileURL, int hitduration, int level) {
 		super();
 		map = new ArrayList<TargetObject>();
 		this.level = level;
@@ -24,7 +24,7 @@ public class Beatmap {
 		load(fileURL);
 	}
 
-	public void load(String fileURL) throws BeatmapException{// res/map/
+	public void load(String fileURL) {// res/map/
 		File file = new File(fileURL);
 		int type = 0;
 		int timing = 0;
@@ -36,12 +36,10 @@ public class Beatmap {
 			br = new BufferedReader(new FileReader(file));
 		} catch (FileNotFoundException e1) {
 			// TODO Auto-generated catch block
-			throw new BeatmapException(0); 
+			e1.printStackTrace();
 		}
 		try {
 			line = br.readLine();
-			if(line==null)
-			throw new BeatmapException(1); 
 			while (line != null) {
 				int hardness = 0;
 				switch (level) {
@@ -65,8 +63,6 @@ public class Beatmap {
 				
 				int index1 = line.indexOf(',');
 				int index2 = line.indexOf(':');
-				if(index1==-1)
-					throw new BeatmapException(1); 
 				System.out.println("hardness = "+hardness);
 				type = Integer.parseInt(line.substring(0, index1));
 				if (type == 1) {
@@ -74,11 +70,11 @@ public class Beatmap {
 					ShortNote sn = new ShortNote(Utility.random(100, 700), z, hitduration, timing, hardness);
 					map.add(sn);
 				} else {
-//					timing = Integer.parseInt(line.substring(index1 + 1, index2));
-//					timingout = Integer.parseInt(line.substring(index2 + 1));
-					// LongNote ln = new LongNote(Utility.random(100, 700), z,
-					// hitduration, timing, timingout);
-					// map.add(ln);
+					timing = Integer.parseInt(line.substring(index1 + 1, index2));
+					timingout = Integer.parseInt(line.substring(index2 + 1));
+					 LongNote ln = new LongNote(Utility.random(100, 700), z,
+					 hitduration, timing, timingout, hardness);
+					 map.add(ln);
 				}
 				line = br.readLine();
 				z--;
@@ -117,6 +113,10 @@ public class Beatmap {
 
 	public int getTargetIndex() {
 		return targetIndex;
+	}
+	
+	public int getSize(){
+		return map.size();
 	}
 
 }

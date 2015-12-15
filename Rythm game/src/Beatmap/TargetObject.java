@@ -19,7 +19,7 @@ public abstract class TargetObject implements IRenderableObject {
 	protected float hitDuration; // sec
 	protected float timing, spawntime; // ms
 
-	public TargetObject(int x, int z, float hitDuration, float timing, int GRAVITY) {
+	public TargetObject(float x, int z, float hitDuration, float timing, int GRAVITY) {
 		super();
 		this.x = x;
 		this.y = YSTART;
@@ -30,7 +30,7 @@ public abstract class TargetObject implements IRenderableObject {
 		this.isPointerOver = false;
 		this.hitDuration = hitDuration;
 		this.timing = timing;
-		this.spawntime = this.timing - (this.hitDuration / 2);
+		this.spawntime = this.timing - (this.hitDuration / 2) * 1000;
 		this.isOnscreen = true;
 		this.GRAVITY = GRAVITY;
 	}
@@ -67,9 +67,9 @@ public abstract class TargetObject implements IRenderableObject {
 		return z;
 	}
 
-	public abstract void hit(PlayerStatus player, NowPlaying now);
+	public abstract int hit(PlayerStatus player);
 
-	public abstract void move();
+	public abstract void move(NowPlaying now, PlayerStatus player);
 
 	public float getSpawntime() {
 		return spawntime;

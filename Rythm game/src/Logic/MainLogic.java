@@ -10,7 +10,6 @@ import javax.swing.JOptionPane;
 import Audio.HitSound;
 import Audio.NowPlaying;
 import Beatmap.Beatmap;
-import Beatmap.BeatmapException;
 import Beatmap.LongNote;
 import Beatmap.ShortNote;
 import Beatmap.TargetObject;
@@ -36,10 +35,10 @@ public class MainLogic implements IRenderableHolder, IGameLogic {
 	private boolean readyToRender = false; // For dealing with synchronization
 
 	// Called before enter the game loop
-	public synchronized void onStart() throws BeatmapException {
+	public synchronized void onStart() {
 		background = new GameBackground();
 		player = new PlayerStatus();
-		map = new Beatmap("res/map/test1.txt", 2,1); // 2 sec
+		map = new Beatmap("res/map/test1.txt", 2, 1); // 2 sec
 		readyToRender = true;
 		now = new NowPlaying();
 		h = new HitSound();
@@ -71,21 +70,21 @@ public class MainLogic implements IRenderableHolder, IGameLogic {
 
 		// Time up
 		if (now.getTime() >= 130011) {
-			   now.stop();
-			   JOptionPane.showMessageDialog(null, "SCORE :" + player.getScore());
-			   onExit();
-			   // HighScoreUtility.recordHighScore(player.getScore());
+			now.stop();
+			JOptionPane.showMessageDialog(null, "SCORE :" + player.getScore());
+			onExit();
+			// HighScoreUtility.recordHighScore(player.getScore());
 
-			   return;
-			  }
-			  if (player.getHp() <= 0) {
-			   now.stop();
-			   h.play(4);
-			   JOptionPane.showMessageDialog(null, "SCORE :" + player.getScore());
-			   onExit();
-			   // HighScoreUtility.recordHighScore(player.getScore());
-			   return;
-			  }
+			return;
+		}
+		if (player.getHp() <= 0) {
+			now.stop();
+			h.play(4);
+			JOptionPane.showMessageDialog(null, "SCORE :" + player.getScore());
+			onExit();
+			// HighScoreUtility.recordHighScore(player.getScore());
+			return;
+		}
 		// System.out.println(map.getnote().getSpawntime());
 		// System.out.println(now.getTime() - map.getnote().getSpawntime());
 		// if it time to spawn
@@ -93,26 +92,28 @@ public class MainLogic implements IRenderableHolder, IGameLogic {
 			onScreenObject.add(map.getnote()); // add note to screen
 			System.out.println("X = " + map.getnote().getX() + " Y = " + map.getnote().getY() + " R = "
 					+ map.getnote().getRadius());
-			if(map.getnote() != null)
-			map.NextTargetIndex(); // point to next note then repeat
+			if (map.getTargetIndex() <= map.getSize() - 2) {
+				map.NextTargetIndex(); // point to next note then repeat
+			}
 			System.out.println("spawn");
 		}
 
 		// Shoot
 		TargetObject target = null;
 		if (player.isDisplayingArea(InputUtility.getMouseX(), InputUtility.getMouseY())) { // mouse
-			// System.odt.println(InputUtility.getKeyPressed(KeyEvent.VK_SPACE));
+			System.err.println(InputUtility.getKeyPressed(KeyEvent.VK_SPACE));
 			target = getTopMostTargetAt(InputUtility.getMouseX(), InputUtility.getMouseY());
 			if (target != null) { // on something
 				if ((InputUtility.isMouseLeftClicked() || InputUtility.getKeyTriggered(KeyEvent.VK_SPACE))) {
 					// on somthing & shoot
 					player.shoot();
 					if (target instanceof ShortNote) {
-						target.hit(player, now);
 						onScreenAnimation.add(
-								DrawingUtility.createFireworkAt(InputUtility.getMouseX(), InputUtility.getMouseY()));
+								DrawingUtility.createHit((int) target.getX(), (int) target.getY(), target.hit(player)));
+						onScreenAnimation
+								.add(DrawingUtility.createFireworkAt((int) target.getX(), (int) target.getY()));
 					} else if (target instanceof LongNote) {
-						// target.hit(player, now);
+						target.hit(player);
 					}
 				}
 			} else { // on notihng
@@ -123,15 +124,23 @@ public class MainLogic implements IRenderableHolder, IGameLogic {
 			}
 		}
 		// Update target object
-		  for (TargetObject obj : onScreenObject) {
-		   obj.move();
-		   if (!obj.isOnscreen()) {
-    player.addMiss();
-		   }
-		   System.out.println("Updated X = " + obj.getX() + " Y = " + obj.getY() + " R = " + obj.getRadius());
-		   System.out.println("onScreenObjectsize =" + onScreenObject.size());
+		for (TargetObject obj : onScreenObject) {
+			obj.move(now, player);
+			if (obj instanceof LongNote) {
+				if (((LongNote) obj).isPlayanimation()) {
+					onScreenAnimation.add(
+							DrawingUtility.createHit((int) target.getX(), (int) target.getY(), target.hit(player)));
+					onScreenAnimation
+							.add(DrawingUtility.createExplosionAt((int) target.getX(), (int) target.getY()));
 
-		  }
+				}
+
+			}
+
+			System.out.println("Updated X = " + obj.getX() + " Y = " + obj.getY() + " R = " + obj.getRadius());
+			System.out.println("onScreenObjectsize =" + onScreenObject.size());
+
+		}
 
 		// Update animation
 		for (GameAnimation obj : onScreenAnimation) {

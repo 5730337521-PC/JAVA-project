@@ -122,6 +122,8 @@ public class GameScreen extends JPanel {
 
 		// assign the background color to be "black"
 		g2.setBackground(Color.BLACK);
+		
+		
 
 		// clear all the objects
 		Dimension dim = getSize();

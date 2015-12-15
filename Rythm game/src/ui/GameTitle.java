@@ -4,19 +4,21 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.image.BufferedImage;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import Graphic.DrawingUtility;
+import Audio.HitSound;
+import Graphic.TitleBackground;
 import Logic.IGameLogic;
 import Logic.MainLogic;
 
 public class GameTitle extends JPanel {
-	;
+
+	private static final long serialVersionUID = 1L;
 	private JButton play, option, center;
-	protected static BufferedImage bg = DrawingUtility.getImage("res/img/bg/title.jpg");
+	private TitleBackground background = new TitleBackground();
+//	protected static BufferedImage bg = DrawingUtility.getImage("res/img/bg/title.jpg");
 	public boolean isclick;
 	IGameLogic logic = new MainLogic();
 	GameScreen gc;
@@ -25,6 +27,7 @@ public class GameTitle extends JPanel {
 		this.setPreferredSize(new Dimension(800, 600));
 		this.setLayout(null);
 		repaint();
+		HitSound h = new HitSound();
 
 		/** add play button picture **/
 		play = new JButton();
@@ -49,15 +52,13 @@ public class GameTitle extends JPanel {
 
 			@Override
 			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-				bg = DrawingUtility.getImage("res/img/bg/title.jpg");
+				background.getTitleBG(0);
 			}
 
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-				bg = DrawingUtility.getImage("res/img/bg/play.jpg");
-				// HitSound.playSound("shoot");
+				background.getTitleBG(1);
+				h.play(3);
 			}
 
 			@Override
@@ -65,6 +66,7 @@ public class GameTitle extends JPanel {
 				// TODO Auto-generated method stub
 				// start game
 				GameManager.newGame();
+				h.play(5);
 			}
 		});
 
@@ -91,19 +93,22 @@ public class GameTitle extends JPanel {
 			@Override
 			public void mouseExited(MouseEvent e) {
 				// TODO Auto-generated method stub
-				bg = DrawingUtility.getImage("res/img/bg/title.jpg");
+				background.getTitleBG(0);
 			}
 
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				// TODO Auto-generated method stub
-				bg = DrawingUtility.getImage("res/img/bg/option.jpg");
+				background.getTitleBG(2);
+				h.play(3);
 			}
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub
 				// option panel
+				h.play(5);
+				GameManager.runHowto();
 			}
 		});
 
@@ -129,14 +134,13 @@ public class GameTitle extends JPanel {
 
 			@Override
 			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-				bg = DrawingUtility.getImage("res/img/bg/Title.jpg");
+				background.getTitleBG(0);
 			}
 
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-				bg = DrawingUtility.getImage("res/img/bg/center.jpg");
+				background.getTitleBG(3);
+				h.play(3);
 			}
 
 			@Override
@@ -144,6 +148,7 @@ public class GameTitle extends JPanel {
 				// TODO Auto-generated method stub
 				// credit
 				JOptionPane.showMessageDialog(null, "BEAT WAR!");
+				
 
 			}
 		});
@@ -156,6 +161,6 @@ public class GameTitle extends JPanel {
 	}
 
 	public void paint(Graphics g) {
-		g.drawImage(bg, 0, 0, null);
+		g.drawImage(TitleBackground.getBgImage(), 0, 0, null);
 	}
 }

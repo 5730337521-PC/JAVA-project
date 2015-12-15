@@ -23,6 +23,7 @@ public class PlayerStatus implements Graphic.IRenderableObject {
 	private int hit50; // MAX_score/2
 	private int hit10; // MAX_score/10
 	private int misscount; // 0
+	private HitSound h;
 
 	public PlayerStatus() { //initialize when startplaying
 		this.score = 0;
@@ -34,6 +35,7 @@ public class PlayerStatus implements Graphic.IRenderableObject {
 		this.hit50 = 0;
 		this.hit10 = 0;
 		this.misscount = 0;
+		h = new HitSound();
 	}
 
 	public void update() { // update after each BPM
@@ -80,6 +82,7 @@ public class PlayerStatus implements Graphic.IRenderableObject {
 		misscount++;
 		hp -= HP_reduction;
 		hitcount++;
+		h.play(0);
 	}
 
 	public int getMaxcombo() {
@@ -137,7 +140,7 @@ public class PlayerStatus implements Graphic.IRenderableObject {
 
 	public void shoot() {
 		// TODO Auto-generated method stub
-		HitSound h = new HitSound();
+		
 		h.play(1);
 	}
 
@@ -156,7 +159,7 @@ public class PlayerStatus implements Graphic.IRenderableObject {
 	@Override
 	public void render(Graphics2D g2d) {
 		// TODO Auto-generated method stub
-		DrawingUtility.drawStatusBar(g2d,  this.getScore(), this.getCombocount(),this.getHp(),(int)this.getAccuracy());
+		DrawingUtility.drawStatusBar(g2d, getScore(), getCombocount(),getHp(), (int)getAccuracy());
 	}
 
 	

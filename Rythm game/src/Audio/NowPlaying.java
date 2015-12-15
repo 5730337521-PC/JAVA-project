@@ -1,7 +1,6 @@
 package Audio;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class NowPlaying {
 	private final int songduration = 130011;
