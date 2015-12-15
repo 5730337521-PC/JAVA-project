@@ -39,7 +39,6 @@ public class MainLogic implements IRenderableHolder, IGameLogic {
 
 	// Called before enter the game loop
 	public synchronized void onStart() {
-		// background = new GameBackground();
 		background = new GameBackground();
 		player = new PlayerStatus();
 		map = new Beatmap("res/map/test.txt", 2000); // 2 sec
@@ -73,7 +72,7 @@ public class MainLogic implements IRenderableHolder, IGameLogic {
 
 		// Time up
 		if (now.getTime() >= now.songduration) {
-			// GameManager.goScoreScreen();
+			onExit();
 			// HighScoreUtility.recordHighScore(player.getScore());
 
 			return;
@@ -93,11 +92,12 @@ public class MainLogic implements IRenderableHolder, IGameLogic {
 		// Shoot
 		TargetObject target = null;
 		if (player.isDisplayingArea(InputUtility.getMouseX(), InputUtility.getMouseY())) { // mouse
-			System.out.println((InputUtility.isMouseLeftClicked() || InputUtility.getKeyTriggered(KeyEvent.VK_SPACE)));
+			// System.out.println(InputUtility.getKeyPressed(KeyEvent.VK_SPACE));
 			if ((InputUtility.isMouseLeftClicked() || InputUtility.getKeyTriggered(KeyEvent.VK_SPACE))) {
 				// shot
 
-				/* manually create beat map
+				/*
+				 * manually create beat map
 				 * 
 				 * try { BufferedWriter out = new BufferedWriter(new
 				 * FileWriter("res/file.txt"));
@@ -176,6 +176,7 @@ public class MainLogic implements IRenderableHolder, IGameLogic {
 		if (!readyToRender)
 			return sortedRenderable;
 		for (TargetObject object : onScreenObject) {
+//			System.out.println("ADD!!");
 			sortedRenderable.add(object);
 		}
 		for (GameAnimation object : onScreenAnimation) {
