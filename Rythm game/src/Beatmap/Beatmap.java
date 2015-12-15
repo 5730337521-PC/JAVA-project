@@ -13,7 +13,7 @@ public class Beatmap {
 	private ArrayList<TargetObject> map;
 	private int targetIndex;
 
-	private int hitduration;
+	private int hitduration; // sec
 
 	public Beatmap(String fileURL, int hitduration) {
 		super();
@@ -50,8 +50,8 @@ public class Beatmap {
 					ShortNote sn = new ShortNote(Utility.random(100, 700), z, hitduration, timing);
 					map.add(sn);
 				} else {
-					timing = Integer.parseInt(line.substring(index1 + 1, index2));
-					timingout = Integer.parseInt(line.substring(index2 + 1));
+//					timing = Integer.parseInt(line.substring(index1 + 1, index2));
+//					timingout = Integer.parseInt(line.substring(index2 + 1));
 					// LongNote ln = new LongNote(Utility.random(100, 700), z,
 					// hitduration, timing, timingout);
 					// map.add(ln);

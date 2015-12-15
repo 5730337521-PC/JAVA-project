@@ -141,6 +141,7 @@ public class GameAnimation implements IRenderableObject {
 	}
 
 	public void updateAnimation() {
+		play();
 		if (playing) {
 			if (frameDelayCount > 0) {
 				frameDelayCount--;

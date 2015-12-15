@@ -19,7 +19,8 @@ import Utility.InputUtility;
 
 
 public class GameScreen extends JPanel {
-
+	
+	private static final long serialVersionUID = 1L;
 	private IRenderableHolder renderableHolder;
 
 	protected GameScreen(IRenderableHolder holder) {
@@ -126,8 +127,10 @@ public class GameScreen extends JPanel {
 		Dimension dim = getSize();
 		g2.clearRect(0, 0, (int) dim.getWidth(), (int) dim.getHeight());
 
-		// reder all the objects
+//		 reder all the objects
 		for (IRenderableObject renderable : renderableHolder.getSortedRenderableObject()) {
 			renderable.render(g2);
+			System.out.println(renderable.getClass());
+			System.out.println("render");
 		}
 	}}

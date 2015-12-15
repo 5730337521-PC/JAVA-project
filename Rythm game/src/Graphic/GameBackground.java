@@ -4,7 +4,6 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 public class GameBackground implements IRenderableObject {
-
 	private static BufferedImage bgImage = null;
 
 	public GameBackground() {

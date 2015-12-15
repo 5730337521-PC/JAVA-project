@@ -4,6 +4,7 @@ import kuusisto.tinysound.Sound;
 import kuusisto.tinysound.TinySound;
 
 public class HitSound {
+	private static Sound Miss;
 	private static Sound HitSound1;
 	private static Sound HitSound2;
 	private static Sound HitSound3;

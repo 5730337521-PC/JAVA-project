@@ -4,7 +4,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class GameWindow extends JFrame {
-
+	private static final long serialVersionUID = 1L;
 	private JPanel currentScene;
 
 	public GameWindow(JPanel scene) {

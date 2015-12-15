@@ -51,7 +51,7 @@ public class PlayerStatus implements Graphic.IRenderableObject {
 	}
 
 	public void addScore(int hittype) { // 100 50 10
-		score += MAX_score * hittype * combocount / 100;
+		score += MAX_score * hittype * (combocount+1) / 100;
 	}
 
 	public void addMaxhit() {
@@ -91,6 +91,7 @@ public class PlayerStatus implements Graphic.IRenderableObject {
 	}
 
 	public int getHp() {
+		if (hp<0) return 0;
 		return hp;
 	}
 
@@ -138,8 +139,6 @@ public class PlayerStatus implements Graphic.IRenderableObject {
 
 	public void shoot() {
 		// TODO Auto-generated method stub
-		HitSound h = new HitSound();
-		h.play(1);
 	}
 
 	@Override

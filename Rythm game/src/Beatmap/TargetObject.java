@@ -1,36 +1,49 @@
 package Beatmap;
 
-import java.awt.Graphics2D;
-
 import Audio.NowPlaying;
 import Graphic.IRenderableObject;
 import Logic.PlayerStatus;
 
 public abstract class TargetObject implements IRenderableObject {
-	protected int x, y, z;
-	protected final static int MAX_Radius = 200, Y_MAX = 50,Y_MIN = 500, GRAVITY = 150;
-	protected int speedY;
-	protected final static int speedradius = 100;
+	protected final static int YSTART = 500, INTRAD = 20;
 	protected final static int TICKRATE = 60; // 1/60 per frame
-	protected static int radius;
-	protected boolean isDestroy, isPointerOver, isHit, onScreen;
-	protected float hitDuration, timing, spawntime; //ms
+	protected final static int GRAVITY = 750; // unit/s2
+	protected final static int SPEEDRADIUS = 30; // unit/s
+
+	protected float x, y, radius;
+	protected int z;
+	protected float speedY; // unit/sec
+
+	protected boolean isDestroy, isPointerOver, isOnscreen,isClicked;
+
+	protected float hitDuration; // sec
+	protected float timing, spawntime; // ms
 
 	public TargetObject(int x, int z, float hitDuration, float timing) {
-		this.speedY = (int) (GRAVITY*hitDuration/2);
+		super();
 		this.x = x;
-		this.y = Y_MIN;
+		this.y = YSTART;
 		this.z = z;
+		this.radius = INTRAD;
+		this.speedY = GRAVITY * hitDuration / 2;
 		this.isDestroy = false;
 		this.isPointerOver = false;
 		this.hitDuration = hitDuration;
 		this.timing = timing;
-		this.isHit = false;
-		this.spawntime = timing - hitDuration / 2;
-		this.onScreen = false;
-		this.radius = 100;
+		this.spawntime = this.timing - (this.hitDuration / 2);
+		this.isOnscreen = true;
+		this.isClicked =false;
 	}
-	
+
+	public boolean isOnscreen() {
+		if (x + radius <= 0 || y + radius <= 0 || x - radius >= 800 || y - radius >= 600) {
+			return false;
+		}
+		else {
+			return true;
+		}	
+	}
+
 	public boolean contains(int x, int y) {
 		return Math.hypot(x - this.x, y - this.y) <= radius + 6;
 	}
@@ -46,7 +59,7 @@ public abstract class TargetObject implements IRenderableObject {
 	@Override
 	public boolean isVisible() {
 		// TODO Auto-generated method stub
-		return isVisible();
+		return false;
 	}
 
 	@Override
@@ -65,6 +78,26 @@ public abstract class TargetObject implements IRenderableObject {
 
 	public boolean isDestroy() {
 		return isDestroy;
+	}
+
+	public float getX() {
+		return x;
+	}
+
+	public float getY() {
+		return y;
+	}
+
+	public float getRadius() {
+		return radius;
+	}
+
+	public boolean isClicked() {
+		return isClicked;
+	}
+
+	public void setClicked(boolean isClicked) {
+		this.isClicked = isClicked;
 	}
 
 }

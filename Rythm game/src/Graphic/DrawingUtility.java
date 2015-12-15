@@ -6,18 +6,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
-
 import javax.imageio.ImageIO;
-import javax.swing.JButton;
-import javax.swing.JPanel;
-
-import Audio.NowPlaying;
-import Logic.MainLogic;
-import Utility.InputUtility;
 
 public class DrawingUtility {
 	protected static final Font standardFont = new Font("Zapfino", Font.BOLD, 30);
@@ -53,24 +43,6 @@ public class DrawingUtility {
 		return firework;
 	}
 
-	public static void drawShootableObject(Graphics2D g2, int x, int y, int radius, String name,
-			boolean isPointerOver) {
-		g2.setColor(Color.BLACK);
-		g2.fillOval(x - radius - 2, y - radius - 2, radius * 2 + 4, radius * 2 + 4);
-		if (name.equalsIgnoreCase("simple"))
-			g2.setColor(Color.BLUE);
-		if (name.equalsIgnoreCase("splitter"))
-			g2.setColor(Color.RED);
-		if (name.equalsIgnoreCase("small"))
-			g2.setColor(Color.YELLOW);
-		g2.fillOval(x - radius, y - radius, radius * 2, radius * 2);
-		if (isPointerOver) {
-			g2.setComposite(transcluentWhite);
-			g2.setColor(Color.WHITE);
-			g2.fillOval(x - radius, y - radius, radius * 2, radius * 2);
-			g2.setComposite(opaque);
-		}
-	}
 
 	public static void drawStatusBar(Graphics2D g2, int score, int combo,int hp) {
 		g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
@@ -114,6 +86,7 @@ public class DrawingUtility {
 		g2.fillOval(x - radius, y - radius, radius * 2, radius * 2);
 		g2.setColor(Color.RED);
 		g2.fillOval(x - radius + 2, y - radius + 2, (radius - 2) * 2, (radius - 2) * 2);
+
 		if (isPointerOver) {
 			g2.setComposite(transcluentWhite);
 			g2.setColor(Color.WHITE);
@@ -127,6 +100,7 @@ public class DrawingUtility {
 		g2.fillOval(x - radius, y - radius, radius * 2, radius * 2);
 		g2.setColor(Color.GREEN);
 		g2.fillOval(x - radius + 2, y - radius + 2, (radius - 2) * 2, (radius - 2) * 2);
+
 		if (isPointerOver) {
 			g2.setComposite(transcluentWhite);
 			g2.setColor(Color.WHITE);

@@ -1,12 +1,8 @@
 package ui;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.swing.JPanel;
 
 import Graphic.IRenderableHolder;
-import Graphic.IRenderableObject;
 import Utility.InputUtility;
 import Logic.IGameLogic;
 
